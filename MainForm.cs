@@ -4,7 +4,7 @@ using SharpGL;
 
 namespace MineCad
 {
-    public partial class MainForm : System.Windows.Forms.Form
+    public partial class MainForm : Form
     {
         /* Настройка цвета фона OpenGLControl. */
         private const float BACKGROUND_COLOR_R = 0.3f;
@@ -16,6 +16,7 @@ namespace MineCad
         private bool isMovingMode = false;
         private bool isZoomingMode = false;
 
+        /* В тестовом режиме проверка создания куба. */
         private bool isCreatingCube = false;
         private float cubeSize = 10.0f;
         private float cubeX = 0.0f;
