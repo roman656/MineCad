@@ -43,11 +43,11 @@ namespace MineCad
         private float rotationSpeed = 1.0f;
 
         /* Параметры главной системы координат. */
-        private float coordinateSystemSize = 25.0f;
+        private float coordinateSystemSize = 35.0f;
         private float coordinateSystemLineWidth = 3.0f;
 
         /* Параметры главной сетки. */
-        private float gridSize = 20.0f;
+        private float gridSize = 30.0f;
         private float gridCellSize = 2.0f;
         private float gridLineWidth = 1.0f;
 
@@ -59,7 +59,7 @@ namespace MineCad
         private void openGLControl1_OpenGLInitialized(object sender, EventArgs e)
         {
             /* Получение ссылки на окно OpenGL. */
-        OpenGL gl = this.openGLControl.OpenGL;
+            OpenGL gl = this.openGLControl.OpenGL;
 
             /* Установка цвета очистки экрана. */
             gl.ClearColor(BACKGROUND_COLOR_R, BACKGROUND_COLOR_G, BACKGROUND_COLOR_B, 0.0f);
