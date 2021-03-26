@@ -34,11 +34,14 @@ namespace MineCad
             this.файлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.правкаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.видToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.button1 = new System.Windows.Forms.Button();
+            this.изометрияToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.главныеОсиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.главныеСеткиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.плоскостьXYToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.плоскостьYZToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.плоскостьXZToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.openGLControl)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -50,18 +53,19 @@ namespace MineCad
             | System.Windows.Forms.AnchorStyles.Right)));
             this.openGLControl.DrawFPS = false;
             this.openGLControl.FrameRate = 60;
-            this.openGLControl.Location = new System.Drawing.Point(10, 50);
+            this.openGLControl.Location = new System.Drawing.Point(13, 64);
+            this.openGLControl.Margin = new System.Windows.Forms.Padding(5);
             this.openGLControl.Name = "openGLControl";
             this.openGLControl.OpenGLVersion = SharpGL.Version.OpenGLVersion.OpenGL4_4;
             this.openGLControl.RenderContextType = SharpGL.RenderContextType.DIBSection;
             this.openGLControl.RenderTrigger = SharpGL.RenderTrigger.TimerBased;
-            this.openGLControl.Size = new System.Drawing.Size(580, 305);
+            this.openGLControl.Size = new System.Drawing.Size(1235, 676);
             this.openGLControl.TabIndex = 1;
-            this.openGLControl.OpenGLInitialized += new System.EventHandler(this.openGLControl1_OpenGLInitialized);
-            this.openGLControl.OpenGLDraw += new SharpGL.RenderEventHandler(this.openGLControl1_OpenGLDraw);
-            this.openGLControl.MouseDown += new System.Windows.Forms.MouseEventHandler(this.openGLControl1_MouseDown);
-            this.openGLControl.MouseMove += new System.Windows.Forms.MouseEventHandler(this.openGLControl1_MouseMove);
-            this.openGLControl.MouseUp += new System.Windows.Forms.MouseEventHandler(this.openGLControl1_MouseUp);
+            this.openGLControl.OpenGLInitialized += new System.EventHandler(this.OpenGLControl1_OpenGLInitialized);
+            this.openGLControl.OpenGLDraw += new SharpGL.RenderEventHandler(this.OpenGLControl1_OpenGLDraw);
+            this.openGLControl.MouseDown += new System.Windows.Forms.MouseEventHandler(this.OpenGLControl1_MouseDown);
+            this.openGLControl.MouseMove += new System.Windows.Forms.MouseEventHandler(this.OpenGLControl1_MouseMove);
+            this.openGLControl.MouseUp += new System.Windows.Forms.MouseEventHandler(this.OpenGLControl1_MouseUp);
             // 
             // menuStrip1
             // 
@@ -72,95 +76,112 @@ namespace MineCad
             this.видToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Padding = new System.Windows.Forms.Padding(4, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(600, 24);
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(5, 2, 0, 2);
+            this.menuStrip1.Size = new System.Drawing.Size(1262, 28);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // файлToolStripMenuItem
             // 
             this.файлToolStripMenuItem.Name = "файлToolStripMenuItem";
-            this.файлToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
+            this.файлToolStripMenuItem.Size = new System.Drawing.Size(59, 24);
             this.файлToolStripMenuItem.Text = "Файл";
             // 
             // правкаToolStripMenuItem
             // 
             this.правкаToolStripMenuItem.Name = "правкаToolStripMenuItem";
-            this.правкаToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
+            this.правкаToolStripMenuItem.Size = new System.Drawing.Size(74, 24);
             this.правкаToolStripMenuItem.Text = "Правка";
             // 
             // видToolStripMenuItem
             // 
+            this.видToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.изометрияToolStripMenuItem,
+            this.главныеОсиToolStripMenuItem,
+            this.главныеСеткиToolStripMenuItem});
             this.видToolStripMenuItem.Name = "видToolStripMenuItem";
-            this.видToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
+            this.видToolStripMenuItem.Size = new System.Drawing.Size(49, 24);
             this.видToolStripMenuItem.Text = "Вид";
             // 
-            // button1
+            // изометрияToolStripMenuItem
             // 
-            this.button1.Location = new System.Drawing.Point(217, 26);
-            this.button1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(129, 19);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "Исходное положение";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.изометрияToolStripMenuItem.Name = "изометрияToolStripMenuItem";
+            this.изометрияToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.изометрияToolStripMenuItem.Text = "Изометрия";
+            this.изометрияToolStripMenuItem.Click += new System.EventHandler(this.IisometryToolStripMenuItem_Click);
+            // 
+            // главныеОсиToolStripMenuItem
+            // 
+            this.главныеОсиToolStripMenuItem.Name = "главныеОсиToolStripMenuItem";
+            this.главныеОсиToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.главныеОсиToolStripMenuItem.Text = "Главные оси";
+            this.главныеОсиToolStripMenuItem.Click += new System.EventHandler(this.MainAxisToolStripMenuItem_Click);
+            // 
+            // главныеСеткиToolStripMenuItem
+            // 
+            this.главныеСеткиToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.плоскостьXYToolStripMenuItem,
+            this.плоскостьYZToolStripMenuItem,
+            this.плоскостьXZToolStripMenuItem});
+            this.главныеСеткиToolStripMenuItem.Name = "главныеСеткиToolStripMenuItem";
+            this.главныеСеткиToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.главныеСеткиToolStripMenuItem.Text = "Главные сетки";
+            // 
+            // плоскостьXYToolStripMenuItem
+            // 
+            this.плоскостьXYToolStripMenuItem.Name = "плоскостьXYToolStripMenuItem";
+            this.плоскостьXYToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.плоскостьXYToolStripMenuItem.Text = "Плоскость XY";
+            this.плоскостьXYToolStripMenuItem.Click += new System.EventHandler(this.GridXYToolStripMenuItem_Click);
+            // 
+            // плоскостьYZToolStripMenuItem
+            // 
+            this.плоскостьYZToolStripMenuItem.Name = "плоскостьYZToolStripMenuItem";
+            this.плоскостьYZToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.плоскостьYZToolStripMenuItem.Text = "Плоскость YZ";
+            this.плоскостьYZToolStripMenuItem.Click += new System.EventHandler(this.GridYZToolStripMenuItem_Click);
+            // 
+            // плоскостьXZToolStripMenuItem
+            // 
+            this.плоскостьXZToolStripMenuItem.Name = "плоскостьXZToolStripMenuItem";
+            this.плоскостьXZToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.плоскостьXZToolStripMenuItem.Text = "Плоскость XZ";
+            this.плоскостьXZToolStripMenuItem.Click += new System.EventHandler(this.GridXZToolStripMenuItem_Click);
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(128, 26);
-            this.button2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button2.Location = new System.Drawing.Point(165, 30);
+            this.button2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(56, 20);
+            this.button2.Size = new System.Drawing.Size(75, 29);
             this.button2.TabIndex = 4;
             this.button2.Text = "Куб";
             this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(25, 25);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 5;
-            this.button3.Text = "Оси";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.button2.Click += new System.EventHandler(this.Button2_Click);
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(363, 25);
+            this.button4.Location = new System.Drawing.Point(13, 30);
+            this.button4.Margin = new System.Windows.Forms.Padding(4);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(121, 23);
+            this.button4.Size = new System.Drawing.Size(145, 29);
             this.button4.TabIndex = 6;
             this.button4.Text = "Начало координат";
             this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
-            // 
-            // button5
-            // 
-            this.button5.Location = new System.Drawing.Point(502, 24);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(75, 23);
-            this.button5.TabIndex = 7;
-            this.button5.Text = "polygon";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
+            this.button4.Click += new System.EventHandler(this.Button4_Click);
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(600, 366);
-            this.Controls.Add(this.button5);
+            this.BackColor = System.Drawing.SystemColors.Control;
+            this.ClientSize = new System.Drawing.Size(1262, 753);
             this.Controls.Add(this.button4);
-            this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.openGLControl);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "MainForm";
             this.Text = "MineCad";
             ((System.ComponentModel.ISupportInitialize)(this.openGLControl)).EndInit();
@@ -177,11 +198,14 @@ namespace MineCad
         private System.Windows.Forms.ToolStripMenuItem файлToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem правкаToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem видToolStripMenuItem;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.ToolStripMenuItem изометрияToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem главныеОсиToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem главныеСеткиToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem плоскостьXYToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem плоскостьYZToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem плоскостьXZToolStripMenuItem;
     }
 }
 
