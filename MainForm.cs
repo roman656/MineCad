@@ -83,58 +83,31 @@ namespace MineCad
             /* Масштаб сцены. */
             gl.Scale(this.zoom, this.zoom, this.zoom);
 
+            /* Создание пирамиды. */
+            GLDrawHelper.DrawStartTriangle(gl);
+
             /* Отрисовка главной системы координат. */
-            GLDrawHelper.drawAxis3D(gl, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, this.coordinateSystemSize,
+            GLDrawHelper.DrawAxis3D(gl, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, this.coordinateSystemSize,
                     this.coordinateSystemSize, this.coordinateSystemSize, this.coordinateSystemLineWidth,
                     System.Drawing.Color.Red, System.Drawing.Color.GreenYellow,
                     System.Drawing.Color.DeepSkyBlue);
 
             /* Отрисовка главной сетки. */
-            GLDrawHelper.drawGrid2D(gl, 2, 0.0f, 0.0f, 0.0f, -1.0f * this.gridSize,
+            GLDrawHelper.DrawGrid2D(gl, 2, 0.0f, 0.0f, 0.0f, -1.0f * this.gridSize,
                     this.gridSize, this.gridCellSize, this.gridLineWidth,
                     System.Drawing.Color.DarkGray);
 
-            /* Создание пирамиды. */
-            gl.Begin(OpenGL.GL_TRIANGLES);
 
-            gl.Color(1.0f, 0.0f, 0.0f);
-            gl.Vertex(0.0f, 1.0f, 0.0f);
-            gl.Color(0.0f, 1.0f, 0.0f);
-            gl.Vertex(-1.0f, -1.0f, 1.0f);
-            gl.Color(0.0f, 0.0f, 1.0f);
-            gl.Vertex(1.0f, -1.0f, 1.0f);
-            
-            gl.Color(1.0f, 0.0f, 0.0f);
-            gl.Vertex(0.0f, 1.0f, 0.0f);
-            gl.Color(0.0f, 0.0f, 1.0f);
-            gl.Vertex(1.0f, -1.0f, 1.0f);
-            gl.Color(0.0f, 1.0f, 0.0f);
-            gl.Vertex(1.0f, -1.0f, -1.0f);
 
-            gl.Color(1.0f, 0.0f, 0.0f);
-            gl.Vertex(0.0f, 1.0f, 0.0f);
-            gl.Color(0.0f, 1.0f, 0.0f);
-            gl.Vertex(1.0f, -1.0f, -1.0f);
-            gl.Color(0.0f, 0.0f, 1.0f);
-            gl.Vertex(-1.0f, -1.0f, -1.0f);
-
-            gl.Color(1.0f, 0.0f, 0.0f);
-            gl.Vertex(0.0f, 1.0f, 0.0f);
-            gl.Color(0.0f, 1.0f, 0.0f);
-            gl.Vertex(-1.0f, -1.0f, 1.0f);
-            gl.Color(0.0f, 0.0f, 1.0f);
-            gl.Vertex(-1.0f, -1.0f, -1.0f);
-
-            gl.End();
             
             if (this.isCreatingCube)
             {
-                GLDrawHelper.drawCube3D(gl, this.cubeX, this.cubeY, 0.0f, this.cubeSize, 3.0f, System.Drawing.Color.OrangeRed);
+                GLDrawHelper.DrawCube3D(gl, this.cubeX, this.cubeY, 0.0f, this.cubeSize, 3.0f, System.Drawing.Color.OrangeRed);
             }
 
             if (this.isCubeCreated)
             {
-                GLDrawHelper.drawCube3D(gl, this.cubeX, this.cubeY, 0.0f, this.cubeSize, 5.0f, System.Drawing.Color.LightSkyBlue);
+                GLDrawHelper.DrawCube3D(gl, this.cubeX, this.cubeY, 0.0f, this.cubeSize, 5.0f, System.Drawing.Color.LightSkyBlue);
             }
 
             gl.LoadIdentity();

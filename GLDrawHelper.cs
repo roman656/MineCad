@@ -1,4 +1,6 @@
-﻿namespace MineCad
+﻿using System.Drawing;
+
+namespace MineCad
 {
     public static class GLDrawHelper
     {
@@ -8,7 +10,7 @@
          */
         private const float COLOR_CONVERSION_VALUE = byte.MaxValue;
 
-        public static void drawLine3D(SharpGL.OpenGL gl, float beginX, float beginY, float beginZ,
+        public static void DrawLine3D(SharpGL.OpenGL gl, float beginX, float beginY, float beginZ,
                 float endX, float endY, float endZ, float width, System.Drawing.Color color)
         {
             /* Установка толщины линии. */
@@ -26,8 +28,88 @@
 
             gl.End();
         }
+        public static void DrawStartTriangle(SharpGL.OpenGL gl)
+        {
+            /* Создание пирамиды. */
+            gl.Begin(SharpGL.OpenGL.GL_TRIANGLES);
 
-        public static void drawQuadrate2D(SharpGL.OpenGL gl, int plane, float beginX, float beginY, 
+            //XY triangle
+            gl.Color(1.0f, 0.0f, 0.0f);
+            gl.Vertex(0.0f, 1.0f, 0.0f);
+
+            gl.Color(0.0f, 1.0f, 0.0f);
+            gl.Vertex(0.0f, 0.0f, 0.0f);
+
+            gl.Color(0.0f, 0.0f, 1.0f);
+            gl.Vertex(1.0f, 0.0f, 0.0f);
+
+
+            //ZY triangle
+            gl.Color(1.0f, 0.0f, 0.0f);
+            gl.Vertex(0.0f, 1.0f, 0.0f);
+
+            gl.Color(0.0f, 1.0f, 0.0f);
+            gl.Vertex(0.0f, 0.0f, 0.0f);
+
+            gl.Color(0.0f, 0.0f, 1.0f);
+            gl.Vertex(0.0f, 0.0f, 1.0f);
+
+
+            //XZ triangle
+            gl.Color(0.0f, 0.0f, 1.0f);
+            gl.Vertex(1.0f, 0.0f, 0.0f);
+
+            gl.Color(0.0f, 1.0f, 0.0f);
+            gl.Vertex(0.0f, 0.0f, 0.0f);
+
+            gl.Color(0.0f, 0.0f, 1.0f);
+            gl.Vertex(0.0f, 0.0f, 1.0f);
+
+            //XYZ triangle
+            gl.Color(1.0f, 0.0f, 0.0f);
+            gl.Vertex(0.0f, 1.0f, 0.0f);
+
+            gl.Color(0.0f, 0.0f, 1.0f);
+            gl.Vertex(1.0f, 0.0f, 0.0f);
+
+            gl.Color(0.0f, 0.0f, 1.0f);
+            gl.Vertex(0.0f, 0.0f, 1.0f);
+
+            gl.End();
+        }
+        public static void DrawFilledQuadrant(SharpGL.OpenGL gl, System.Drawing.Color color)
+        {
+            gl.Begin(SharpGL.OpenGL.GL_QUADS);
+
+            gl.Color(color.R / COLOR_CONVERSION_VALUE,
+             color.G / COLOR_CONVERSION_VALUE,
+             color.B / COLOR_CONVERSION_VALUE);
+
+            gl.Vertex(-1.0f, -1.0f, -1.0f);
+
+            gl.Color(color.R / COLOR_CONVERSION_VALUE,
+              color.G / COLOR_CONVERSION_VALUE,
+              color.B / COLOR_CONVERSION_VALUE);
+
+            gl.Vertex(-1.0f, -1.0f, 1.0f);
+
+            gl.Color(color.R / COLOR_CONVERSION_VALUE,
+             color.G / COLOR_CONVERSION_VALUE,
+             color.B / COLOR_CONVERSION_VALUE);
+
+            gl.Vertex(1.0f, -1.0f, 1.0f);
+
+            gl.Color(color.R / COLOR_CONVERSION_VALUE,
+                    color.G / COLOR_CONVERSION_VALUE,
+                    color.B / COLOR_CONVERSION_VALUE);
+
+            gl.Vertex(1.0f, -1.0f, -1.0f);
+
+
+            gl.End();
+        }
+
+        public static void DrawQuadrate2D(SharpGL.OpenGL gl, int plane, float beginX, float beginY, 
                 float beginZ, float size, float linesWidth, System.Drawing.Color color)
         {
             /* Установка толщины линий. */
@@ -69,32 +151,32 @@
             gl.End();
         }
 
-        public static void drawCube3D(SharpGL.OpenGL gl, float beginX, float beginY,
+        public static void DrawCube3D(SharpGL.OpenGL gl, float beginX, float beginY,
                 float beginZ, float size, float linesWidth, System.Drawing.Color color)
         {
-            drawQuadrate2D(gl, 2, beginX, beginY, beginZ, size, linesWidth, color);
-            drawQuadrate2D(gl, 2, beginX, beginY + size, beginZ, size, linesWidth, color);
-            drawQuadrate2D(gl, 1, beginX + (size / 2.0f), beginY + (size / 2.0f), beginZ, size,
+            DrawQuadrate2D(gl, 2, beginX, beginY, beginZ, size, linesWidth, color);
+            DrawQuadrate2D(gl, 2, beginX, beginY + size, beginZ, size, linesWidth, color);
+            DrawQuadrate2D(gl, 1, beginX + (size / 2.0f), beginY + (size / 2.0f), beginZ, size,
                     linesWidth, color);
-            drawQuadrate2D(gl, 1, beginX - (size / 2.0f), beginY + (size / 2.0f), beginZ, size,
+            DrawQuadrate2D(gl, 1, beginX - (size / 2.0f), beginY + (size / 2.0f), beginZ, size,
                     linesWidth, color);
         }
 
-        public static void drawAxis3D(SharpGL.OpenGL gl, float beginX, float beginY, float beginZ,
+        public static void DrawAxis3D(SharpGL.OpenGL gl, float beginX, float beginY, float beginZ,
                 float minXValue, float minYValue, float minZValue,
                 float maxXValue, float maxYValue, float maxZValue, 
                 float width, System.Drawing.Color axisXColor, System.Drawing.Color axisYColor,
                 System.Drawing.Color axisZColor)
         {
-            GLDrawHelper.drawLine3D(gl, beginX + minXValue, beginY, beginZ,
+            GLDrawHelper.DrawLine3D(gl, beginX + minXValue, beginY, beginZ,
                     beginX + maxXValue, beginY, beginZ, width, axisXColor);
-            GLDrawHelper.drawLine3D(gl, beginX, beginY + minYValue, beginZ,
+            GLDrawHelper.DrawLine3D(gl, beginX, beginY + minYValue, beginZ,
                     beginX, beginY + maxYValue, beginZ, width, axisYColor);
-            GLDrawHelper.drawLine3D(gl, beginX, beginY, beginZ + minZValue,
+            GLDrawHelper.DrawLine3D(gl, beginX, beginY, beginZ + minZValue,
                     beginX, beginY, beginZ + maxZValue, width, axisZColor);
         }
         
-        public static void drawGrid2D(SharpGL.OpenGL gl, int plane, float beginX, float beginY, float beginZ,
+        public static void DrawGrid2D(SharpGL.OpenGL gl, int plane, float beginX, float beginY, float beginZ,
                 float minValue, float maxValue, float cellSize, float width, System.Drawing.Color color)
         {
             /* Определение количества линий по одной оси. */
@@ -107,30 +189,30 @@
                 if (plane == 0)
                 {
                     /* В плоскости XY. */
-                    GLDrawHelper.drawLine3D(gl, beginX + minValue,
+                    GLDrawHelper.DrawLine3D(gl, beginX + minValue,
                             beginY + minValue + (cellSize * (linesAmount - 1)), beginZ, beginX + maxValue,
                             beginY + minValue + (cellSize * (linesAmount - 1)), beginZ, width, color);
-                    GLDrawHelper.drawLine3D(gl, beginX + minValue + (cellSize * (linesAmount - 1)),
+                    GLDrawHelper.DrawLine3D(gl, beginX + minValue + (cellSize * (linesAmount - 1)),
                             beginY + minValue, beginZ, beginX + minValue + (cellSize * (linesAmount - 1)),
                             beginY + maxValue, beginZ, width, color);
                 }
                 else if (plane == 1)
                 {
                     /* В плоскости YZ. */
-                    GLDrawHelper.drawLine3D(gl, beginX, beginY + minValue + (cellSize * (linesAmount - 1)),
+                    GLDrawHelper.DrawLine3D(gl, beginX, beginY + minValue + (cellSize * (linesAmount - 1)),
                             beginZ + minValue, beginX, beginY + minValue + (cellSize * (linesAmount - 1)),
                             beginZ + maxValue, width, color);
-                    GLDrawHelper.drawLine3D(gl, beginX, beginY + minValue,
+                    GLDrawHelper.DrawLine3D(gl, beginX, beginY + minValue,
                             beginZ + minValue + (cellSize * (linesAmount - 1)), beginX, beginY + maxValue,
                             beginZ + minValue + (cellSize * (linesAmount - 1)), width, color);
                 }
                 else
                 {
                     /* В плоскости XZ. */
-                    GLDrawHelper.drawLine3D(gl, beginX + minValue, beginY,
+                    GLDrawHelper.DrawLine3D(gl, beginX + minValue, beginY,
                             beginZ + minValue + (cellSize * (linesAmount - 1)), beginX + maxValue,
                             beginY, beginZ + minValue + (cellSize * (linesAmount - 1)), width, color);
-                    GLDrawHelper.drawLine3D(gl, beginX + minValue + (cellSize * (linesAmount - 1)),
+                    GLDrawHelper.DrawLine3D(gl, beginX + minValue + (cellSize * (linesAmount - 1)),
                             beginY, beginZ + minValue, beginX + minValue + (cellSize * (linesAmount - 1)),
                             beginY, beginZ + maxValue, width, color);
                 }
