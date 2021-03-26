@@ -29,6 +29,7 @@ namespace MineCad
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.openGLControl = new SharpGL.OpenGLControl();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.файлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -106,14 +107,14 @@ namespace MineCad
             // изометрияToolStripMenuItem
             // 
             this.изометрияToolStripMenuItem.Name = "изометрияToolStripMenuItem";
-            this.изометрияToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.изометрияToolStripMenuItem.Size = new System.Drawing.Size(192, 26);
             this.изометрияToolStripMenuItem.Text = "Изометрия";
             this.изометрияToolStripMenuItem.Click += new System.EventHandler(this.IisometryToolStripMenuItem_Click);
             // 
             // главныеОсиToolStripMenuItem
             // 
             this.главныеОсиToolStripMenuItem.Name = "главныеОсиToolStripMenuItem";
-            this.главныеОсиToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.главныеОсиToolStripMenuItem.Size = new System.Drawing.Size(192, 26);
             this.главныеОсиToolStripMenuItem.Text = "Главные оси";
             this.главныеОсиToolStripMenuItem.Click += new System.EventHandler(this.MainAxisToolStripMenuItem_Click);
             // 
@@ -124,27 +125,27 @@ namespace MineCad
             this.плоскостьYZToolStripMenuItem,
             this.плоскостьXZToolStripMenuItem});
             this.главныеСеткиToolStripMenuItem.Name = "главныеСеткиToolStripMenuItem";
-            this.главныеСеткиToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.главныеСеткиToolStripMenuItem.Size = new System.Drawing.Size(192, 26);
             this.главныеСеткиToolStripMenuItem.Text = "Главные сетки";
             // 
             // плоскостьXYToolStripMenuItem
             // 
             this.плоскостьXYToolStripMenuItem.Name = "плоскостьXYToolStripMenuItem";
-            this.плоскостьXYToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.плоскостьXYToolStripMenuItem.Size = new System.Drawing.Size(186, 26);
             this.плоскостьXYToolStripMenuItem.Text = "Плоскость XY";
             this.плоскостьXYToolStripMenuItem.Click += new System.EventHandler(this.GridXYToolStripMenuItem_Click);
             // 
             // плоскостьYZToolStripMenuItem
             // 
             this.плоскостьYZToolStripMenuItem.Name = "плоскостьYZToolStripMenuItem";
-            this.плоскостьYZToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.плоскостьYZToolStripMenuItem.Size = new System.Drawing.Size(186, 26);
             this.плоскостьYZToolStripMenuItem.Text = "Плоскость YZ";
             this.плоскостьYZToolStripMenuItem.Click += new System.EventHandler(this.GridYZToolStripMenuItem_Click);
             // 
             // плоскостьXZToolStripMenuItem
             // 
             this.плоскостьXZToolStripMenuItem.Name = "плоскостьXZToolStripMenuItem";
-            this.плоскостьXZToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.плоскостьXZToolStripMenuItem.Size = new System.Drawing.Size(186, 26);
             this.плоскостьXZToolStripMenuItem.Text = "Плоскость XZ";
             this.плоскостьXZToolStripMenuItem.Click += new System.EventHandler(this.GridXZToolStripMenuItem_Click);
             // 
@@ -180,6 +181,7 @@ namespace MineCad
             this.Controls.Add(this.button2);
             this.Controls.Add(this.openGLControl);
             this.Controls.Add(this.menuStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "MainForm";
