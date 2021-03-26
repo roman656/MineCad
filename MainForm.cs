@@ -50,6 +50,9 @@ namespace MineCad
         private float gridCellSize = 2.0f;
         private float gridLineWidth = 1.0f;
 
+        private bool IsAxisVisible = false;
+        private bool IsStartVisible = false;
+        private bool DrawPolygon = false;
         public MainForm()
         {
             InitializeComponent();
@@ -84,13 +87,24 @@ namespace MineCad
             gl.Scale(this.zoom, this.zoom, this.zoom);
 
             /* Создание пирамиды. */
-            GLDrawHelper.DrawStartTriangle(gl);
+            if (IsStartVisible)
+            {
+                GLDrawHelper.DrawStartTriangle(gl);
+            }
 
             /* Отрисовка главной системы координат. */
-            GLDrawHelper.DrawAxis3D(gl, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, this.coordinateSystemSize,
+            if (IsAxisVisible)
+            {
+                GLDrawHelper.DrawAxis3D(gl, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, this.coordinateSystemSize,
                     this.coordinateSystemSize, this.coordinateSystemSize, this.coordinateSystemLineWidth,
                     System.Drawing.Color.Red, System.Drawing.Color.GreenYellow,
                     System.Drawing.Color.DeepSkyBlue);
+            }
+
+            if (DrawPolygon)
+            {
+                GLDrawHelper.DrawPolygon(gl, 3, 3, 3);
+            }
 
             /* Отрисовка главной сетки. */
             GLDrawHelper.DrawGrid2D(gl, 2, 0.0f, 0.0f, 0.0f, -1.0f * this.gridSize,
@@ -197,6 +211,21 @@ namespace MineCad
             this.isCubeCreated = false;
             this.pressedMouseX = 0;
             this.pressedMouseY = 0;
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            IsAxisVisible = !IsAxisVisible;
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            IsStartVisible = !IsStartVisible;
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            DrawPolygon = !DrawPolygon;
         }
     }
 }

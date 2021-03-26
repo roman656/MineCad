@@ -11,7 +11,7 @@ namespace MineCad
         private const float COLOR_CONVERSION_VALUE = byte.MaxValue;
 
         public static void DrawLine3D(SharpGL.OpenGL gl, float beginX, float beginY, float beginZ,
-                float endX, float endY, float endZ, float width, System.Drawing.Color color)
+                float endX, float endY, float endZ, float width, Color color)
         {
             /* Установка толщины линии. */
             gl.LineWidth(width);
@@ -77,7 +77,7 @@ namespace MineCad
 
             gl.End();
         }
-        public static void DrawFilledQuadrant(SharpGL.OpenGL gl, System.Drawing.Color color)
+        public static void DrawFilledQuadrant(SharpGL.OpenGL gl, Color color)
         {
             gl.Begin(SharpGL.OpenGL.GL_QUADS);
 
@@ -110,7 +110,7 @@ namespace MineCad
         }
 
         public static void DrawQuadrate2D(SharpGL.OpenGL gl, int plane, float beginX, float beginY, 
-                float beginZ, float size, float linesWidth, System.Drawing.Color color)
+                float beginZ, float size, float linesWidth, Color color)
         {
             /* Установка толщины линий. */
             gl.LineWidth(linesWidth);
@@ -152,7 +152,7 @@ namespace MineCad
         }
 
         public static void DrawCube3D(SharpGL.OpenGL gl, float beginX, float beginY,
-                float beginZ, float size, float linesWidth, System.Drawing.Color color)
+                float beginZ, float size, float linesWidth, Color color)
         {
             DrawQuadrate2D(gl, 2, beginX, beginY, beginZ, size, linesWidth, color);
             DrawQuadrate2D(gl, 2, beginX, beginY + size, beginZ, size, linesWidth, color);
@@ -165,8 +165,8 @@ namespace MineCad
         public static void DrawAxis3D(SharpGL.OpenGL gl, float beginX, float beginY, float beginZ,
                 float minXValue, float minYValue, float minZValue,
                 float maxXValue, float maxYValue, float maxZValue, 
-                float width, System.Drawing.Color axisXColor, System.Drawing.Color axisYColor,
-                System.Drawing.Color axisZColor)
+                float width, Color axisXColor, Color axisYColor,
+                Color axisZColor)
         {
             GLDrawHelper.DrawLine3D(gl, beginX + minXValue, beginY, beginZ,
                     beginX + maxXValue, beginY, beginZ, width, axisXColor);
@@ -177,7 +177,7 @@ namespace MineCad
         }
         
         public static void DrawGrid2D(SharpGL.OpenGL gl, int plane, float beginX, float beginY, float beginZ,
-                float minValue, float maxValue, float cellSize, float width, System.Drawing.Color color)
+                float minValue, float maxValue, float cellSize, float width, Color color)
         {
             /* Определение количества линий по одной оси. */
             int linesAmount = (int) System.Math.Ceiling((maxValue - minValue) / cellSize);
@@ -218,5 +218,64 @@ namespace MineCad
                 }
             }
         }
+
+        public static void DrawSolid(SharpGL.OpenGL gl)
+        {
+            //TODO: implemet  this
+        }
+
+
+        public static void DrawPolygon(SharpGL.OpenGL gl, float heigt, float width, float depth)
+        {
+            gl.Begin(SharpGL.OpenGL.GL_POLYGON);
+
+            gl.Vertex(0.0f, heigt / 2, depth / 2);
+            gl.Vertex(0.0f, heigt / 2, -depth / 2);
+            gl.Vertex(0.0f, -heigt / 2, -depth / 2);
+        
+            gl.Vertex(0.0f, -heigt / 2, depth / 2);
+
+            gl.End();
+
+    
+        }
+
+
+        /*public static void DrawBox(SharpGL.OpenGL gl, float width, float height, float depth)
+{
+            gl.Begin(SharpGL.OpenGL.GL_POLYGON);
+            gl.Vertex(0.0f, height / 2, -depth / 2);
+            gl.Vertex(0.0f, height / 2, depth / 2);
+            gl.Vertex(0.0f, -height / 2, depth / 2);
+            gl.Vertex(0.0f, -height / 2, -depth / 2);
+            gl.End();
+
+            gl.Begin(SharpGL.OpenGL.GL_POLYGON);
+            gl.Vertex(width, height / 2, depth / 2);
+            gl.Vertex(0.0f, height / 2, depth / 2);
+            gl.Vertex(0.0f, height / 2, -depth / 2);
+            gl.Vertex(width, height / 2,-depth / 2);
+            gl.End();
+
+            gl.Begin(SharpGL.OpenGL.GL_POLYGON);
+            gl.Vertex(width, height / 2, depth / 2);
+            gl.Vertex(width, height / 2, -depth / 2);
+            gl.Vertex(width, -height / 2, -depth / 2);
+            gl.Vertex(width, -height / 2, depth / 2);
+            gl.End();
+
+            gl.Begin(SharpGL.OpenGL.GL_POLYGON);
+            gl.Vertex(0.0f, -height / 2, depth / 2);
+            gl.Vertex(width, -height / 2, depth / 2);
+            gl.Vertex(width, -height / 2, -depth / 2);
+            gl.Vertex(0.0f, -height / 2, -depth / 2);
+            gl.End();
+
+            gl.Begin(SharpGL.OpenGL.GL_POLYGON);
+            gl.Vertex(0.0f, height / 2, depth / 2);
+            gl.Vertex(width, height / 2, depth / 2);
+            gl.Vertex(width, -height / 2, depth / 2);*/
+
+
     }
 }
