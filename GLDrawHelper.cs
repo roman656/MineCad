@@ -1,4 +1,6 @@
 ﻿using System.Drawing;
+using System.Collections.Generic;
+using System;
 
 namespace MineCad
 {
@@ -55,6 +57,7 @@ namespace MineCad
         public static void DrawGrid2D(SharpGL.OpenGL gl, int plane, float beginX, float beginY, float beginZ,
                 float minValue, float maxValue, float cellSize, float width, Color color)
         {
+
             /* Определение количества линий по одной оси. */
             int linesAmount = (int) System.Math.Ceiling((maxValue - minValue) / cellSize);
             linesAmount++;
@@ -324,6 +327,173 @@ namespace MineCad
                 float beginX, float beginY, float beginZ, float size, Color color)
         {
             DrawFilledBox3D(gl, beginX, beginY, beginZ, size, size, size, color);
+        }
+
+        public static void DrawPyramid(SharpGL.OpenGL gl, float height, float length, float width, Color polColour, Color lineColour)
+        {
+            float pR = polColour.R / 255.0f;
+            float pG = polColour.G / 255.0f;
+            float pB = polColour.B / 255.0f;
+
+            float lR = lineColour.R / 255.0f;
+            float lG = lineColour.G / 255.0f;
+            float lB = lineColour.B / 255.0f;
+
+            gl.Color(lR, lG, lB);
+
+            gl.LineWidth(5f);
+
+            gl.Begin(SharpGL.OpenGL.GL_LINE_LOOP);
+
+            gl.Vertex(0f, height, 0f);
+            gl.Vertex(width/2, 0f, length/2);
+
+            gl.Vertex(0f, height, 0f);
+            gl.Vertex(width / 2, 0f, -length / 2);
+
+            gl.Vertex(0f, height, 0f);
+            gl.Vertex(-width / 2, 0f, length / 2);
+
+            gl.Vertex(0f, height, 0f);
+            gl.Vertex(-width / 2, 0f, -length / 2);
+
+            gl.Vertex(-width / 2, 0f, length / 2);
+            gl.Vertex(width / 2, 0f, length / 2);
+            gl.Vertex(width / 2, 0f, -length / 2);
+            gl.Vertex(-width / 2, 0f, -length / 2);
+
+            gl.End();
+
+            gl.Color(pR, pG, pB);
+
+            gl.Begin(SharpGL.OpenGL.GL_TRIANGLES);
+
+            gl.Vertex(0f, height, 0f);
+            gl.Vertex(width / 2, 0f, length / 2);
+            gl.Vertex(width / 2, 0f, -length / 2);
+
+
+            gl.Vertex(0f, height, 0f);
+            gl.Vertex(width / 2, 0f, -length / 2);
+            gl.Vertex(-width / 2, 0f, -length / 2);
+
+            gl.Vertex(0f, height, 0f);
+            gl.Vertex(-width / 2, 0f, -length / 2);
+            gl.Vertex(-width / 2, 0f, length / 2);
+
+            gl.Vertex(0f, height, 0f);
+            gl.Vertex(-width / 2, 0f, length / 2);
+            gl.Vertex(width / 2, 0f, length / 2);
+
+
+            gl.End();
+
+            gl.Begin(SharpGL.OpenGL.GL_POLYGON);
+
+            gl.Vertex(width / 2, 0f, length / 2);
+            gl.Vertex(width / 2, 0f, -length / 2);
+            gl.Vertex(-width / 2, 0f, -length / 2);
+            gl.Vertex(-width / 2, 0f, length / 2);
+
+            gl.End();
+
+        }
+
+        public static void DrawCylinder(SharpGL.OpenGL gl, float height, double radiusBottom, double radiusTop, int polCount, Color polColour, Color lineColour)
+        {
+
+            float diVal = 360 / polCount;
+
+
+
+            float pR = polColour.R / 255.0f;
+            float pG = polColour.G / 255.0f;
+            float pB = polColour.B / 255.0f;
+
+            float lR = lineColour.R / 255.0f;
+            float lG = lineColour.G / 255.0f;
+            float lB = lineColour.B / 255.0f;
+
+            gl.Color(lR, lG, lB);
+
+            gl.Begin(SharpGL.OpenGL.GL_LINE_LOOP);
+
+            double degrees = 0;
+
+            List<Tuple<double, double>> coordsBottom = new List<Tuple<double, double>>();
+
+            List<Tuple<double, double>> coordsTop = new List<Tuple<double, double>>();
+
+            for (int i = 0; i < polCount; i++)
+            {
+                double angle = Math.PI * degrees / 180.0;
+
+                Tuple<double, double> tmpBottom = new Tuple<double, double>(Math.Cos(angle) * radiusBottom, Math.Sin(angle) * radiusBottom);
+
+                Tuple<double, double> tmpTop = new Tuple<double, double>(Math.Cos(angle) * radiusTop, Math.Sin(angle) * radiusTop);
+
+                gl.Vertex(tmpBottom.Item1, 0f, tmpBottom.Item2);
+
+                coordsBottom.Add(tmpBottom);
+
+                coordsTop.Add(tmpTop);
+
+                degrees += diVal;
+            }
+            gl.End();
+
+            gl.Begin(SharpGL.OpenGL.GL_LINE_LOOP);
+            for (int i = 0; i < polCount; i++)
+            {
+                gl.Vertex(coordsTop[i].Item1, height, coordsTop[i].Item2);
+            }
+            gl.End();
+
+            gl.Color(pR, pG, pB);
+
+            for (int i = 0; i < polCount-1; i++)
+            {
+                gl.Begin(SharpGL.OpenGL.GL_POLYGON);
+                gl.Vertex(coordsBottom[i].Item1, 0f, coordsBottom[i].Item2);
+                gl.Vertex(coordsTop[i].Item1, height, coordsTop[i].Item2);
+                gl.Vertex(coordsTop[i + 1].Item1, height, coordsTop[i + 1].Item2);
+                gl.Vertex(coordsBottom[i + 1].Item1, 0f, coordsBottom[i + 1].Item2);
+                gl.End();
+            }
+
+            gl.Begin(SharpGL.OpenGL.GL_POLYGON);
+            gl.Vertex(coordsBottom[polCount - 1].Item1, 0f, coordsBottom[polCount - 1].Item2);
+            gl.Vertex(coordsTop[polCount - 1].Item1, height, coordsTop[polCount - 1].Item2);
+            gl.Vertex(coordsTop[0].Item1, height, coordsTop[0].Item2);
+            gl.Vertex(coordsBottom[0].Item1, 0f, coordsBottom[0].Item2);
+            gl.End();
+
+            for (int i = 0; i < polCount - 1; i++)
+            {
+                gl.Begin(SharpGL.OpenGL.GL_TRIANGLES);
+                gl.Vertex(coordsBottom[i].Item1, 0f, coordsBottom[i].Item2);
+                gl.Vertex(coordsBottom[i+1].Item1, 0f, coordsBottom[i+1].Item2);
+                gl.Vertex(0f, 0f, 0f);
+                gl.End();
+
+                gl.Begin(SharpGL.OpenGL.GL_TRIANGLES);
+                gl.Vertex(coordsTop[i].Item1, height, coordsTop[i].Item2);
+                gl.Vertex(coordsTop[i + 1].Item1, height, coordsTop[i + 1].Item2);
+                gl.Vertex(0f, height, 0f);
+                gl.End();
+            }
+
+            gl.Begin(SharpGL.OpenGL.GL_TRIANGLES);
+            gl.Vertex(coordsBottom[polCount - 1].Item1, 0f, coordsBottom[polCount - 1].Item2);
+            gl.Vertex(coordsBottom[0].Item1, 0f, coordsBottom[0].Item2);
+            gl.Vertex(0f, 0f, 0f);
+            gl.End();
+
+            gl.Begin(SharpGL.OpenGL.GL_TRIANGLES);
+            gl.Vertex(coordsTop[polCount - 1].Item1, height, coordsTop[polCount - 1].Item2);
+            gl.Vertex(coordsTop[0].Item1, height, coordsTop[0].Item2);
+            gl.Vertex(0f, height, 0f);
+            gl.End();
         }
     }
 }

@@ -57,6 +57,9 @@ namespace MineCad
         /* Параметры гизмо. Тест. */
         private bool isStartVisible = false;
 
+        private bool isPyramidVisible = false;
+        private bool isCylinderVisible = false;
+
         public MainForm()
         {
             InitializeComponent();
@@ -142,6 +145,17 @@ namespace MineCad
             {
                 GLDrawHelper.DrawFilledCube3D(gl, this.cubeX, this.cubeY, 0.0f,
                         this.cubeSize, System.Drawing.Color.LightSkyBlue);
+            }
+
+            if (this.isPyramidVisible)
+            {
+                GLDrawHelper.DrawPyramid(gl, 10f, 10f, 2f,
+                        System.Drawing.Color.LightSkyBlue, System.Drawing.Color.Chocolate);
+            }
+
+            if (this.isCylinderVisible)
+            {
+                GLDrawHelper.DrawCylinder(gl, 10f, 7f, 10f, 16, System.Drawing.Color.LightSkyBlue, System.Drawing.Color.Chocolate);
             }
 
             gl.LoadIdentity();
@@ -256,6 +270,25 @@ namespace MineCad
         private void GridXZToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.isXZGridVisible = !this.isXZGridVisible;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            OpenGL gl = this.openGLControl.OpenGL;
+            int[] ttt = new int[1];
+            gl.GetInteger(SharpGL.OpenGL.GL_MAX_ELEMENTS_VERTICES, ttt);// Enable()
+
+            MessageBox.Show($"{ttt[0]}");
+        }
+
+        private void пирамидаToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.isPyramidVisible = !this.isPyramidVisible;
+        }
+
+        private void цилиндрToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.isCylinderVisible = !this.isCylinderVisible;
         }
     }
 }
