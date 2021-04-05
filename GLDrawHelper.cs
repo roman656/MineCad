@@ -399,7 +399,7 @@ namespace MineCad
 
         }
 
-        public static void DrawCylinder(SharpGL.OpenGL gl, float height, double radius, int polCount, Color polColour, Color lineColour)
+        public static void DrawCylinder(SharpGL.OpenGL gl, float height, double radiusBottom, double radiusTop, int polCount, Color polColour, Color lineColour)
         {
 
             float diVal = 360 / polCount;
@@ -420,17 +420,23 @@ namespace MineCad
 
             double degrees = 0;
 
-            List<Tuple<double, double>> coords = new List<Tuple<double, double>>();
+            List<Tuple<double, double>> coordsBottom = new List<Tuple<double, double>>();
+
+            List<Tuple<double, double>> coordsTop = new List<Tuple<double, double>>();
 
             for (int i = 0; i < polCount; i++)
             {
                 double angle = Math.PI * degrees / 180.0;
 
-                Tuple<double, double> tmp = new Tuple<double, double>(Math.Cos(angle) * radius, Math.Sin(angle) * radius);
+                Tuple<double, double> tmpBottom = new Tuple<double, double>(Math.Cos(angle) * radiusBottom, Math.Sin(angle) * radiusBottom);
 
-                gl.Vertex(tmp.Item1, 0f, tmp.Item2);
+                Tuple<double, double> tmpTop = new Tuple<double, double>(Math.Cos(angle) * radiusTop, Math.Sin(angle) * radiusTop);
 
-                coords.Add(tmp);
+                gl.Vertex(tmpBottom.Item1, 0f, tmpBottom.Item2);
+
+                coordsBottom.Add(tmpBottom);
+
+                coordsTop.Add(tmpTop);
 
                 degrees += diVal;
             }
@@ -439,7 +445,7 @@ namespace MineCad
             gl.Begin(SharpGL.OpenGL.GL_LINE_LOOP);
             for (int i = 0; i < polCount; i++)
             {
-                gl.Vertex(coords[i].Item1, height, coords[i].Item2);
+                gl.Vertex(coordsTop[i].Item1, height, coordsTop[i].Item2);
             }
             gl.End();
 
@@ -448,44 +454,44 @@ namespace MineCad
             for (int i = 0; i < polCount-1; i++)
             {
                 gl.Begin(SharpGL.OpenGL.GL_POLYGON);
-                gl.Vertex(coords[i].Item1, 0f, coords[i].Item2);
-                gl.Vertex(coords[i].Item1, height, coords[i].Item2);
-                gl.Vertex(coords[i + 1].Item1, height, coords[i + 1].Item2);
-                gl.Vertex(coords[i + 1].Item1, 0f, coords[i + 1].Item2);
+                gl.Vertex(coordsBottom[i].Item1, 0f, coordsBottom[i].Item2);
+                gl.Vertex(coordsTop[i].Item1, height, coordsTop[i].Item2);
+                gl.Vertex(coordsTop[i + 1].Item1, height, coordsTop[i + 1].Item2);
+                gl.Vertex(coordsBottom[i + 1].Item1, 0f, coordsBottom[i + 1].Item2);
                 gl.End();
             }
 
             gl.Begin(SharpGL.OpenGL.GL_POLYGON);
-            gl.Vertex(coords[polCount - 1].Item1, 0f, coords[polCount - 1].Item2);
-            gl.Vertex(coords[polCount - 1].Item1, height, coords[polCount - 1].Item2);
-            gl.Vertex(coords[0].Item1, height, coords[0].Item2);
-            gl.Vertex(coords[0].Item1, 0f, coords[0].Item2);
+            gl.Vertex(coordsBottom[polCount - 1].Item1, 0f, coordsBottom[polCount - 1].Item2);
+            gl.Vertex(coordsTop[polCount - 1].Item1, height, coordsTop[polCount - 1].Item2);
+            gl.Vertex(coordsTop[0].Item1, height, coordsTop[0].Item2);
+            gl.Vertex(coordsBottom[0].Item1, 0f, coordsBottom[0].Item2);
             gl.End();
 
             for (int i = 0; i < polCount - 1; i++)
             {
                 gl.Begin(SharpGL.OpenGL.GL_TRIANGLES);
-                gl.Vertex(coords[i].Item1, 0f, coords[i].Item2);
-                gl.Vertex(coords[i+1].Item1, 0f, coords[i+1].Item2);
+                gl.Vertex(coordsBottom[i].Item1, 0f, coordsBottom[i].Item2);
+                gl.Vertex(coordsBottom[i+1].Item1, 0f, coordsBottom[i+1].Item2);
                 gl.Vertex(0f, 0f, 0f);
                 gl.End();
 
                 gl.Begin(SharpGL.OpenGL.GL_TRIANGLES);
-                gl.Vertex(coords[i].Item1, height, coords[i].Item2);
-                gl.Vertex(coords[i + 1].Item1, height, coords[i + 1].Item2);
+                gl.Vertex(coordsTop[i].Item1, height, coordsTop[i].Item2);
+                gl.Vertex(coordsTop[i + 1].Item1, height, coordsTop[i + 1].Item2);
                 gl.Vertex(0f, height, 0f);
                 gl.End();
             }
 
             gl.Begin(SharpGL.OpenGL.GL_TRIANGLES);
-            gl.Vertex(coords[polCount - 1].Item1, 0f, coords[polCount - 1].Item2);
-            gl.Vertex(coords[0].Item1, 0f, coords[0].Item2);
+            gl.Vertex(coordsBottom[polCount - 1].Item1, 0f, coordsBottom[polCount - 1].Item2);
+            gl.Vertex(coordsBottom[0].Item1, 0f, coordsBottom[0].Item2);
             gl.Vertex(0f, 0f, 0f);
             gl.End();
 
             gl.Begin(SharpGL.OpenGL.GL_TRIANGLES);
-            gl.Vertex(coords[polCount - 1].Item1, height, coords[polCount - 1].Item2);
-            gl.Vertex(coords[0].Item1, height, coords[0].Item2);
+            gl.Vertex(coordsTop[polCount - 1].Item1, height, coordsTop[polCount - 1].Item2);
+            gl.Vertex(coordsTop[0].Item1, height, coordsTop[0].Item2);
             gl.Vertex(0f, height, 0f);
             gl.End();
         }

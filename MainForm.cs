@@ -155,7 +155,7 @@ namespace MineCad
 
             if (this.isCylinderVisible)
             {
-                GLDrawHelper.DrawCylinder(gl, 10f, 10f, 16, System.Drawing.Color.LightSkyBlue, System.Drawing.Color.Chocolate);
+                GLDrawHelper.DrawCylinder(gl, 10f, 7f, 10f, 16, System.Drawing.Color.LightSkyBlue, System.Drawing.Color.Chocolate);
             }
 
             gl.LoadIdentity();
