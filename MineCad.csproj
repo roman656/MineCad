@@ -78,6 +78,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Grid.cs" />
     <Compile Include="Plane.cs" />
     <Compile Include="Line.cs" />
     <Compile Include="MainForm.cs">

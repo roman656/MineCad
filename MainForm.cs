@@ -53,7 +53,7 @@ namespace MineCad
         private bool isXYGridVisible = false;
         private bool isYZGridVisible = false;
         private bool isXZGridVisible = true;
-        private float gridSize = 60.0f;
+        private uint gridSizeInCells = 30;
         private float gridCellSize = 2.0f;
         private float gridLineWidth = 1.0f;
 
@@ -105,7 +105,7 @@ namespace MineCad
             gl.LoadIdentity();
 
             /* Преобразование сцены. */
-            transformScene(gl);
+            TransformScene(gl);
 
             /* Отрисовка главной системы координат. */
             if (this.isAxisVisible)
@@ -127,26 +127,20 @@ namespace MineCad
             /* Отрисовка главных сеток. */
             if (this.isXYGridVisible)
             {
-                GLDrawHelper.DrawGrid2D(gl, 0,
-                        0.0f, 0.0f, 0.0f,
-                        -1.0f * (this.gridSize / 2.0f), this.gridSize / 2.0f,
-                        this.gridCellSize, this.gridLineWidth, System.Drawing.Color.DarkGray);
+                Grid.Draw(gl, 0, new Point(), this.gridCellSize, this.gridSizeInCells, this.gridSizeInCells,
+                        this.gridLineWidth, System.Drawing.Color.DarkGray);
             }
 
             if (this.isYZGridVisible)
             {
-                GLDrawHelper.DrawGrid2D(gl, 1,
-                        0.0f, 0.0f, 0.0f,
-                        -1.0f * (this.gridSize / 2.0f), this.gridSize / 2.0f,
-                        this.gridCellSize, this.gridLineWidth, System.Drawing.Color.DarkGray);
+                Grid.Draw(gl, 1, new Point(), this.gridCellSize, this.gridSizeInCells, this.gridSizeInCells,
+                        this.gridLineWidth, System.Drawing.Color.DarkGray);
             }
 
             if (this.isXZGridVisible)
             {
-                GLDrawHelper.DrawGrid2D(gl, 2,
-                        0.0f, 0.0f, 0.0f,
-                        -1.0f * (this.gridSize / 2.0f), this.gridSize / 2.0f,
-                        this.gridCellSize, this.gridLineWidth, System.Drawing.Color.DarkGray);
+                Grid.Draw(gl, 2, new Point(), this.gridCellSize, this.gridSizeInCells, this.gridSizeInCells,
+                        this.gridLineWidth, System.Drawing.Color.DarkGray);
             }
 
             if (this.isCreatingMode)
@@ -168,7 +162,7 @@ namespace MineCad
             gl.LoadIdentity();
         }
 
-        private void transformScene(OpenGL gl)
+        private void TransformScene(OpenGL gl)
         {
             /* Перемещение сцены. */
             gl.Translate(this.newXCoordinate, this.newYCoordinate, this.newZCoordinate);
