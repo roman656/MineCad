@@ -45,7 +45,7 @@ namespace MineCad
         private float scaleSpeed = 0.005f;
 
         /* Параметры главной системы координат. */
-        private bool isAxisVisible = true;
+        private bool isCoordinateSystemVisible = true;
         private float coordinateSystemSize = 30.0f;
         private float coordinateSystemLineWidth = 3.0f;
 
@@ -108,14 +108,11 @@ namespace MineCad
             TransformScene(gl);
 
             /* Отрисовка главной системы координат. */
-            if (this.isAxisVisible)
+            if (this.isCoordinateSystemVisible)
             {
-                GLDrawHelper.DrawAxis3D(gl,
-                    0.0f, 0.0f, 0.0f,
-                    0.0f, 0.0f, 0.0f,
-                    this.coordinateSystemSize, this.coordinateSystemSize, this.coordinateSystemSize,
-                    this.coordinateSystemLineWidth,
-                    System.Drawing.Color.Red, System.Drawing.Color.GreenYellow, System.Drawing.Color.DeepSkyBlue);
+                Axes.Draw(gl, new Point(), this.coordinateSystemSize,
+                        this.coordinateSystemLineWidth, this.coordinateSystemLineWidth, this.coordinateSystemLineWidth,
+                        System.Drawing.Color.Red, System.Drawing.Color.GreenYellow, System.Drawing.Color.DeepSkyBlue);
             }
 
             /* Создание гизмо в центре. */
@@ -299,7 +296,7 @@ namespace MineCad
 
         private void MainAxisToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.isAxisVisible = !this.isAxisVisible;
+            this.isCoordinateSystemVisible = !this.isCoordinateSystemVisible;
         }
 
         private void GridXYToolStripMenuItem_Click(object sender, EventArgs e)

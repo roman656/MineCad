@@ -32,7 +32,7 @@ namespace MineCad
             gl.End();
         }
 
-        public static void DrawAxis3D(SharpGL.OpenGL gl, float beginX,    float beginY,    float beginZ,
+        public static void DrawAxes3D(SharpGL.OpenGL gl, float beginX,    float beginY,    float beginZ,
                                                          float minXValue, float minYValue, float minZValue,
                                                          float maxXValue, float maxYValue, float maxZValue,
                                                          float width,
