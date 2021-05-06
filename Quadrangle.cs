@@ -26,6 +26,33 @@ namespace MineCad
             return this.points != null;
         }
 
+        public Point[] Points
+        {
+            get
+            {
+                return (Point[]) this.points.Clone();
+            }
+
+            set
+            {
+                if (CheckPoints(value))
+                {
+                    this.points = (Point[])value.Clone();
+                }
+            }
+        }
+
+        public Point Center
+        {
+            get
+            {
+                return this.CheckPoints() ? Line.GetCenter(
+                        (Point)this.points[0].Clone(),
+                        (Point)this.points[2].Clone()
+                    ) : null;
+            }
+        }
+
         public bool CheckPoints(in Point[] points)
         {
             if (points.Length != 4){
