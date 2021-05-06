@@ -29,7 +29,6 @@ namespace MineCad
         /* Режимы преобразования сцены. */
         private bool isSceneRotatingMode = false;
         private bool isSceneMovingMode = false;
-        private bool isSceneScalingMode = false;
 
         /* Параметры, отвечающие за вращение сцены. */
         private float axisRotateX = 15.0f;
@@ -44,7 +43,7 @@ namespace MineCad
 
         /* Параметры, отвечающие за масштаб сцены. */
         private float scale = 1.0f;
-        private float scaleSpeed = 0.005f;
+        private float scaleSpeed = 50.0f;
 
         /* Параметры главной системы координат. */
         private bool isCoordinateSystemVisible = true;
@@ -90,6 +89,9 @@ namespace MineCad
         public MainForm()
         {
             InitializeComponent();
+
+            /* Обработка событий мыши. */
+            this.MouseWheel += SceneScaling;
         }
 
         private void OpenGLControl1_OpenGLInitialized(object sender, EventArgs e)
@@ -286,10 +288,6 @@ namespace MineCad
             { 
                 this.isSceneMovingMode = true; 
             }
-            else if (e.Button == MouseButtons.Middle) 
-            {
-                this.isSceneScalingMode = true;
-            }
 
             this.pressedMouseX = e.X;
             this.pressedMouseY = e.Y;
@@ -299,7 +297,6 @@ namespace MineCad
         {
             this.isSceneRotatingMode = false;
             this.isSceneMovingMode = false;
-            this.isSceneScalingMode = false;
         }
 
         private void OpenGLControl1_MouseMove(object sender, MouseEventArgs e)
@@ -317,11 +314,6 @@ namespace MineCad
                 this.axisRotateX -= this.rotationSpeed * deltaY;
                 this.axisRotateY -= this.rotationSpeed * deltaX;
             }
-            else if (this.isSceneScalingMode)
-            {
-                this.scale = ((this.scale + deltaY * this.scaleSpeed) > 0.0f) ?
-                        (this.scale + deltaY * this.scaleSpeed) : this.scale;
-            }
             else if (this.isCreatingMode)
             {
                 this.cubeSize += this.movingSpeed * deltaX;
@@ -330,6 +322,11 @@ namespace MineCad
 
             this.pressedMouseX = e.X;
             this.pressedMouseY = e.Y;
+        }
+
+        void SceneScaling(object sender, MouseEventArgs e)
+        {
+            this.scale += e.Delta / (Math.Abs(e.Delta) * this.scaleSpeed);
         }
 
         private void Button4_Click(object sender, EventArgs e)
