@@ -170,11 +170,12 @@ namespace MineCad
                     new Point(2f, 1f, 4.0f),
                     new Point(3f, 4f, 4.0f),
                     new Point(3f, 5f, 4.0f),
+                    ///new Point(3f, 5f, 3.0f), to test complanarity
                 };
 
                 this.plane = new Quadrangle(points);
 
-                if (this.plane != null){
+                if (this.plane.CheckPoints()){
                     this.plane.Draw(gl, Color.Yellow);
                 }
                 

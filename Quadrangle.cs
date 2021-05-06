@@ -21,6 +21,11 @@ namespace MineCad
             }
         }
 
+        public bool CheckPoints()
+        {
+            return this.points != null;
+        }
+
         public bool CheckPoints(in Point[] points)
         {
             if (points.Length != 4){
