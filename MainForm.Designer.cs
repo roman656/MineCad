@@ -54,6 +54,8 @@ namespace MineCad
             this.button4 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
+            this.тестToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.тестIPlaneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.openGLControl)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -66,7 +68,7 @@ namespace MineCad
             this.openGLControl.DrawFPS = false;
             this.openGLControl.FrameRate = 60;
             this.openGLControl.Location = new System.Drawing.Point(10, 52);
-            this.openGLControl.Margin = new System.Windows.Forms.Padding(4);
+            this.openGLControl.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.openGLControl.Name = "openGLControl";
             this.openGLControl.OpenGLVersion = SharpGL.Version.OpenGLVersion.OpenGL4_4;
             this.openGLControl.RenderContextType = SharpGL.RenderContextType.DIBSection;
@@ -86,7 +88,8 @@ namespace MineCad
             this.файлToolStripMenuItem,
             this.правкаToolStripMenuItem,
             this.видToolStripMenuItem,
-            this.создатьToolStripMenuItem});
+            this.создатьToolStripMenuItem,
+            this.тестToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(4, 2, 0, 2);
@@ -253,7 +256,7 @@ namespace MineCad
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(124, 24);
-            this.button1.Margin = new System.Windows.Forms.Padding(2);
+            this.button1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(56, 24);
             this.button1.TabIndex = 7;
@@ -263,21 +266,36 @@ namespace MineCad
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(184, 24);
-            this.button2.Margin = new System.Windows.Forms.Padding(2);
+            this.button2.Location = new System.Drawing.Point(184, 25);
+            this.button2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(59, 24);
+            this.button2.Size = new System.Drawing.Size(56, 24);
             this.button2.TabIndex = 8;
             this.button2.Text = "Выстрел";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.Fire_Click);
+            // 
+            // тестToolStripMenuItem
+            // 
+            this.тестToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.тестIPlaneToolStripMenuItem});
+            this.тестToolStripMenuItem.Name = "тестToolStripMenuItem";
+            this.тестToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
+            this.тестToolStripMenuItem.Text = "Тест";
+            // 
+            // тестIPlaneToolStripMenuItem
+            // 
+            this.тестIPlaneToolStripMenuItem.Name = "тестIPlaneToolStripMenuItem";
+            this.тестIPlaneToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.тестIPlaneToolStripMenuItem.Text = "тест IPlane";
+            this.тестIPlaneToolStripMenuItem.Click += new System.EventHandler(this.тестIPlaneToolStripMenuItem_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(946, 609);
+            this.ClientSize = new System.Drawing.Size(946, 603);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.button4);
@@ -285,7 +303,7 @@ namespace MineCad
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
-            this.Margin = new System.Windows.Forms.Padding(2);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "MainForm";
             this.Text = "MineCad";
             ((System.ComponentModel.ISupportInitialize)(this.openGLControl)).EndInit();
@@ -321,6 +339,8 @@ namespace MineCad
         private System.Windows.Forms.ToolStripMenuItem конусToolStripMenuItem;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.ToolStripMenuItem тестToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem тестIPlaneToolStripMenuItem;
     }
 }
 
