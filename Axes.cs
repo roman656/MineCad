@@ -65,7 +65,7 @@ namespace MineCad
                 Color axisXColor, Color axisYColor, Color axisZColor)
         {
             /* Ось OX. */
-            Line.Draw(gl, center.X, center.Y, center.Z, center.X +size, center.Y, center.Z, axisXWidth, axisXColor);
+            Line.Draw(gl, center.X, center.Y, center.Z, center.X + size, center.Y, center.Z, axisXWidth, axisXColor);
 
             /* Ось OY. */
             Line.Draw(gl, center.X, center.Y, center.Z, center.X, center.Y + size, center.Z, axisYWidth, axisYColor);

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using SharpGL;
 
@@ -78,6 +80,13 @@ namespace MineCad
         private bool isConeVisible = false;
         private bool isSphereVisible = false;
 
+        private Tank[] tankPlatoon = { new Tank(new Point(0, 0, 0)),
+                                       new Tank(new Point(0, 0, 20)), 
+                                       new Tank(new Point(0, 0, -20)) };
+
+        private Bullet[] bullets = { new Bullet(), new Bullet(), new Bullet() };
+        private bool wasFire = false;
+
         public MainForm()
         {
             InitializeComponent();
@@ -153,6 +162,55 @@ namespace MineCad
             }
 
             DrawTestSolids(gl);
+
+            foreach (var tank in this.tankPlatoon)
+            {
+                tank.Draw(gl, System.Drawing.Color.Yellow, System.Drawing.Color.Yellow, System.Drawing.Color.Blue);
+            }
+
+            if (wasFire)
+            {
+                foreach (var bullet in this.bullets)
+                {
+                    bullet.Draw(gl, 0.09f, System.Drawing.Color.Red);
+                    bullet.Go();
+                }
+            }
+
+            foreach (var tank in this.tankPlatoon)
+            {
+                if ((this.coordinateSystemSize < tank.Center.X) && (tank.RotationValue.Y > -180.0f))
+                {
+                    Point newRotationValue = tank.RotationValue;
+
+                    tank.Step = new Point();
+
+                    newRotationValue.Y -= 0.5f;
+                    tank.RotationValue = newRotationValue;
+                }
+                else if ((-this.coordinateSystemSize > tank.Center.X) && (tank.RotationValue.Y < 0.0f))
+                {
+                    Point newRotationValue = tank.RotationValue;
+
+                    tank.Step = new Point();
+
+                    newRotationValue.Y += 0.5f;
+                    tank.RotationValue = newRotationValue;
+                }
+                else
+                {
+                    if (tank.RotationValue.Y <= -180.0f)
+                    {
+                        tank.Step = new Point(-0.15f, 0.0f, 0.0f);
+                    }
+                    else if (tank.RotationValue.Y >= 0.0f)
+                    {
+                        tank.Step = new Point(0.15f, 0.0f, 0.0f);
+                    }
+                }
+
+                tank.Go();
+            }
 
             gl.Flush();
 
@@ -294,7 +352,7 @@ namespace MineCad
             this.scale = 1.0f;
         }
 
-        private void MainAxisToolStripMenuItem_Click(object sender, EventArgs e)
+        private void MainAxesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.isCoordinateSystemVisible = !this.isCoordinateSystemVisible;
         }
@@ -360,6 +418,19 @@ namespace MineCad
             this.isCubeCreated = false;
             this.pressedMouseX = 0;
             this.pressedMouseY = 0;
+        }
+
+        private void Fire_Click(object sender, EventArgs e)
+        {
+            wasFire = true;
+
+            int i = 0;
+
+            foreach (var tank in this.tankPlatoon)
+            {
+                this.bullets[i] = tank.Fire();
+                i++;
+            }
         }
     }
 }

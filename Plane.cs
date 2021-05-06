@@ -145,6 +145,14 @@ namespace MineCad
             }
         }
 
+        public Point Center
+        {
+            get
+            {
+                return Line.GetCenter(this.points[0], this.points[2]);
+            }
+        }
+
         public void DrawOutline(SharpGL.OpenGL gl, float width, Color color)
         {
             /* Установка толщины линий. */
@@ -223,6 +231,19 @@ namespace MineCad
                           rigthBottom.Z + leftTop.Z - rigthTop.Z);
 
                 gl.End();
+            }
+        }
+
+        public static Point GetCenter(in Point leftTop, in Point rigthTop, in Point rigthBottom)
+        {
+            /* Если по заданным точкам построить плоскость нельзя, то возвращается нулевая точка (TODO: исключение). */
+            if (CheckPoints(leftTop, rigthTop, rigthBottom))
+            {
+                return Line.GetCenter(leftTop, rigthBottom);
+            }
+            else
+            {
+                return new Point();
             }
         }
 
