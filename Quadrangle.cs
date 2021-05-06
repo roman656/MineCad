@@ -30,7 +30,7 @@ namespace MineCad
         {
             get
             {
-                return (Point[]) this.points.Clone();
+                return (Point[])this.points.Clone();
             }
 
             set
@@ -49,7 +49,7 @@ namespace MineCad
                 return this.CheckPoints() ? Line.GetCenter(
                         (Point)this.points[0].Clone(),
                         (Point)this.points[2].Clone()
-                    ) : null;
+                 ) : null;
             }
         }
 
@@ -83,6 +83,26 @@ namespace MineCad
             float det = AB.X * (BC.Y * CD.Z - CD.Y * BC.Z) - AB.Y * (BC.X * CD.Z - BC.Z* CD.X) + AB.Z * (BC.X * CD.Y - BC.Y * CD.X);
 
             return det == 0.0f;
+        }
+
+        public void DrawOutline(SharpGL.OpenGL gl, float width, Color color)
+        {
+            /* Установка толщины линий. */
+            gl.LineWidth(width);
+
+            /* Установка цвета линий. */
+            gl.Color(color.R / colorConversionConstant,
+                     color.G / colorConversionConstant,
+                     color.B / colorConversionConstant);
+
+            gl.Begin(SharpGL.OpenGL.GL_LINE_LOOP);
+
+            gl.Vertex(this.points[0].X, this.points[0].Y, this.points[0].Z);
+            gl.Vertex(this.points[1].X, this.points[1].Y, this.points[1].Z);
+            gl.Vertex(this.points[2].X, this.points[2].Y, this.points[2].Z);
+            gl.Vertex(this.points[3].X, this.points[3].Y, this.points[3].Z);
+
+            gl.End();
         }
 
         public void Draw(SharpGL.OpenGL gl, Point[] points, Color color)
