@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
+using System.Drawing;
 using System.Windows.Forms;
 using SharpGL;
 
@@ -79,10 +78,13 @@ namespace MineCad
         private bool isCylinderVisible = false;
         private bool isConeVisible = false;
         private bool isSphereVisible = false;
+        private bool isCoolPlaneVisible = false;
 
         private Tank[] tankPlatoon = { new Tank(new Point(0, 0, 0)),
                                        new Tank(new Point(0, 0, 20)), 
                                        new Tank(new Point(0, 0, -20)) };
+
+        private Quadrangle plane;
 
         private Bullet[] bullets = { new Bullet(), new Bullet(), new Bullet() };
         private bool wasFire = false;
@@ -159,6 +161,23 @@ namespace MineCad
             {
                 GLDrawHelper.DrawFilledCube3D(gl, this.cubeX, this.cubeY, 0.0f,
                         this.cubeSize, System.Drawing.Color.LightSkyBlue);
+            }
+
+            if (this.isCoolPlaneVisible)
+            {
+                Point[] points = new Point[] {
+                    new Point(0f, 1f, 4.0f),
+                    new Point(2f, 1f, 4.0f),
+                    new Point(3f, 4f, 4.0f),
+                    new Point(3f, 5f, 4.0f),
+                };
+
+                this.plane = new Quadrangle(points);
+
+                if (this.plane != null){
+                    this.plane.Draw(gl, Color.Yellow);
+                }
+                
             }
 
             DrawTestSolids(gl);
@@ -431,6 +450,11 @@ namespace MineCad
                 this.bullets[i] = tank.Fire();
                 i++;
             }
+        }
+
+        private void тестIPlaneToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.isCoolPlaneVisible = !this.isCoolPlaneVisible;
         }
     }
 }

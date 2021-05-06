@@ -6,32 +6,56 @@ namespace MineCad
     class Quadrangle:IPlane
     {
         private const float colorConversionConstant = byte.MaxValue;
-        private Point[] points = { new Point(), new Point(), new Point(), new Point() };
-        public object Clone() {
-            return new Quadrangle();
+        private Point[] points;
+
+
+        public Quadrangle(Point[] points)
+        {
+            if (this.CheckPoints(points))
+            {
+                this.points = points;
+            }
+            else
+            {
+                this.points = null;
+            }
         }
 
-        public bool CheckPoints(in Point leftTop, in Point rigthTop, in Point rigthBottom)
+        public bool CheckPoints(in Point[] points)
         {
-            /* Вектора по координатам точек (хранятся в Point ради удобства). */
-            Point AB = new Point(rigthTop.X - leftTop.X, rigthTop.Y - leftTop.Y, rigthTop.Z - leftTop.Z);
-            Point AC = new Point(rigthBottom.X - leftTop.X, rigthBottom.Y - leftTop.Y, rigthBottom.Z - leftTop.Z);
+            if (points.Length != 4){
+                return false;
+            }
 
-            /* Векторное произведение AB и AC. */
-            Point C = new Point(AB.Y * AC.Z - AB.Z * AC.Y, -1.0f * (AB.X * AC.Z - AB.Z * AC.X), AB.X * AC.Y - AB.Y * AC.X);
+            Point AB = new Point(
+                points[0].X - points[1].X, points[0].Y - points[1].Y, points[0].Z - points[1].Z
+            );
 
-            /* Модуль вектора C. */
-            double modC = Math.Sqrt(C.X * C.X + C.Y * C.Y + C.Z * C.Z);
+            Point CD = new Point(
+                points[2].X - points[3].X, points[2].Y - points[3].Y, points[2].Z - points[3].Z
+            );
 
-            /* Площадь треугольника (по данным точкам). */
-            double S = modC / 2.0f;
+            Point BC = new Point(
+                points[1].X - points[2].X, points[1].Y - points[2].Y, points[1].Z - points[2].Z
+            );
 
-            /* Если площадь образуемого этими точками треугольника не равна 0, то они не на 1й прямой. */
-            return (S != 0.0f) ? true : false;
+            ///<coplanarity>
+            ///
+            /// 
+            ///     | AB.X AB.Y AB.Z|     
+            ///  det| BC.X BC.Y BC.Z| = 0
+            ///     | CD.X CD.Y CD.Z| 
+            /// 
+            ///   </ coplanarity>
+
+            float det = AB.X * (BC.Y * CD.Z - CD.Y * BC.Z) - AB.Y * (BC.X * CD.Z - BC.Z* CD.X) + AB.Z * (BC.X * CD.Y - BC.Y * CD.X);
+
+            return det == 0.0f;
         }
-        public void Draw(SharpGL.OpenGL gl, in Point leftTop, in Point rigthTop, in Point rigthBottom, Color color)
+
+        public void Draw(SharpGL.OpenGL gl, Point[] points, Color color)
         {
-            if (this.CheckPoints(leftTop, rigthTop, rigthBottom))
+            if (this.CheckPoints(points))
             {
                 gl.Color(color.R / colorConversionConstant,
                      color.G / colorConversionConstant,
@@ -39,16 +63,15 @@ namespace MineCad
 
                 gl.Begin(SharpGL.OpenGL.GL_POLYGON);
 
-                gl.Vertex(leftTop.X, leftTop.Y, leftTop.Z);
-                gl.Vertex(rigthTop.X, rigthTop.Y, rigthTop.Z);
-                gl.Vertex(rigthBottom.X, rigthBottom.Y, rigthBottom.Z);
-                gl.Vertex(rigthBottom.X + leftTop.X - rigthTop.X,
-                          leftTop.Y - rigthTop.Y + rigthBottom.Y,
-                          rigthBottom.Z + leftTop.Z - rigthTop.Z);
+               foreach(Point p in points)
+                {
+                    gl.Vertex(p.X, p.Y, p.Z);
+                }
 
                 gl.End();
             }
         }
+
         public void Draw(SharpGL.OpenGL gl, Color color)
         {
             /* Установка цвета плоскости. */
@@ -64,6 +87,11 @@ namespace MineCad
             gl.Vertex(this.points[3].X, this.points[3].Y, this.points[3].Z);
 
             gl.End();
+        }
+
+        public object Clone()
+        {
+            return new Quadrangle(this.points);
         }
     }
 }
