@@ -43,7 +43,7 @@ namespace MineCad
 
         /* Параметры, отвечающие за масштаб сцены. */
         private float scale = 1.0f;
-        private float scaleSpeed = 50.0f;
+        private float scaleSpeed = 0.1f;
 
         /* Параметры главной системы координат. */
         private bool isCoordinateSystemVisible = true;
@@ -167,7 +167,7 @@ namespace MineCad
 
             foreach (var tank in this.tankPlatoon)
             {
-                tank.Draw(gl, System.Drawing.Color.Yellow, System.Drawing.Color.Yellow, System.Drawing.Color.Blue);
+                tank.Draw(gl, System.Drawing.Color.Green, System.Drawing.Color.Green, System.Drawing.Color.Green);
             }
 
             if (wasFire)
@@ -326,7 +326,11 @@ namespace MineCad
 
         void SceneScaling(object sender, MouseEventArgs e)
         {
-            this.scale += e.Delta / (Math.Abs(e.Delta) * this.scaleSpeed);
+            if (e.Delta != 0)
+            {
+                float newScale = this.scale + (e.Delta / Math.Abs(e.Delta)) * this.scaleSpeed * this.scale;
+                this.scale = (newScale > 0.0f) ? newScale : this.scale;
+            }
         }
 
         private void Button4_Click(object sender, EventArgs e)
