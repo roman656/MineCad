@@ -80,6 +80,8 @@
   <ItemGroup>
     <Compile Include="Axes.cs" />
     <Compile Include="Bullet.cs" />
+    <Compile Include="IPlane.cs" />
+    <Compile Include="Quadrangle.cs" />
     <Compile Include="Grid.cs" />
     <Compile Include="Plane.cs" />
     <Compile Include="Line.cs" />
