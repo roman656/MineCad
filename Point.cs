@@ -35,6 +35,50 @@ namespace MineCad
             this.z = z;
         }
 
+        /* 
+         * Сферические координаты. Углы в градусах.
+         * theta - угол от оси Y до итогового радиуса, на конце которого расположена точка (уже с учетом доворота на phi). [0 ; 180]
+         * phi - угол от оси X в плоскости XZ. [0 ; 360) 
+         */
+        public Point(float radius, double theta, double phi)
+        {
+            if (radius < 0.0f)
+            {
+                this.x = 0;
+                this.y = 0;
+                this.z = 0;
+            }
+            else
+            {
+                /* Нормализация углов. */
+                if (theta < 0.0f || theta > 180.0f)
+                {
+                    theta = theta % 180.0f;
+
+                    if (theta <= 0.0f)
+                    {
+                        theta += 180.0f;
+                    }
+                }
+
+                phi = phi % 360.0f;
+
+                if (phi < 0.0f)
+                {
+                    phi += 360.0f;
+                }
+
+                /* Перевод градусов в радианы. */
+                theta = theta * Math.PI / 180.0f;
+                phi = phi * Math.PI / 180.0f;
+
+                /* Переход к декартовым координатам. */
+                this.x = (float)(radius * Math.Sin(theta) * Math.Cos(phi));
+                this.y = (float)(radius * Math.Cos(theta));
+                this.z = (float)(radius * Math.Sin(theta) * Math.Sin(phi));
+            }
+        }
+
         public float X
         {
             get
@@ -104,6 +148,48 @@ namespace MineCad
             gl.Vertex(x, y, z);
 
             gl.End();
+        }
+
+        public static void Draw(SharpGL.OpenGL gl, float radius, double theta, double phi, float size, Color color)
+        {
+            if (radius >= 0.0f)
+            {
+                /* Нормализация углов. */
+                if (theta < 0.0f || theta > 180.0f)
+                {
+                    theta = theta % 180.0f;
+
+                    if (theta <= 0.0f)
+                    {
+                        theta += 180.0f;
+                    }
+                }
+
+                phi = phi % 360.0f;
+
+                if (phi < 0.0f)
+                {
+                    phi += 360.0f;
+                }
+
+                /* Перевод градусов в радианы. */
+                theta = theta * Math.PI / 180.0f;
+                phi = phi * Math.PI / 180.0f;
+            
+                gl.PointSize(size);
+
+                gl.Color(color.R / colorConversionConstant,
+                         color.G / colorConversionConstant,
+                         color.B / colorConversionConstant);
+
+                gl.Begin(SharpGL.OpenGL.GL_POINTS);
+
+                gl.Vertex((float)(radius * Math.Sin(theta) * Math.Cos(phi)),
+                          (float)(radius * Math.Cos(theta)),
+                          (float)(radius * Math.Sin(theta) * Math.Sin(phi)));
+
+                gl.End();
+            }
         }
 
         public object Clone()

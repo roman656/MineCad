@@ -53,9 +53,12 @@ namespace MineCad
         private bool isXYGridVisible = false;
         private bool isYZGridVisible = false;
         private bool isXZGridVisible = true;
-        private uint gridSizeInCells = 30;
-        private float gridCellSize = 2.0f;
+        private uint gridSizeInCells = 60;
+        private float gridCellSize = 1.0f;
         private float gridLineWidth = 1.0f;
+        private uint majorGridSizeInCells = 6;
+        private float majorGridCellSize = 10.0f;
+        private float majorGridLineWidth = 2.0f;
 
         /* В тестовом режиме: проверка создания куба. */
         private float cubeSize = 10.0f;
@@ -125,7 +128,7 @@ namespace MineCad
             {
                 Axes.Draw(gl, new Point(), this.coordinateSystemSize,
                         this.coordinateSystemLineWidth, this.coordinateSystemLineWidth, this.coordinateSystemLineWidth,
-                        System.Drawing.Color.Red, System.Drawing.Color.GreenYellow, System.Drawing.Color.DeepSkyBlue);
+                        Color.Red, Color.GreenYellow, Color.DeepSkyBlue);
             }
 
             /* Создание гизмо в центре. */
@@ -138,31 +141,37 @@ namespace MineCad
             if (this.isXYGridVisible)
             {
                 Grid.Draw(gl, 0, new Point(), this.gridCellSize, this.gridSizeInCells, this.gridSizeInCells,
-                        this.gridLineWidth, System.Drawing.Color.DarkGray);
+                        this.gridLineWidth, Color.DarkGray);
+                Grid.Draw(gl, 0, new Point(), this.majorGridCellSize, this.majorGridSizeInCells, this.majorGridSizeInCells,
+                        this.majorGridLineWidth, Color.DarkGray);
             }
 
             if (this.isYZGridVisible)
             {
                 Grid.Draw(gl, 1, new Point(), this.gridCellSize, this.gridSizeInCells, this.gridSizeInCells,
-                        this.gridLineWidth, System.Drawing.Color.DarkGray);
+                        this.gridLineWidth, Color.DarkGray);
+                Grid.Draw(gl, 1, new Point(), this.majorGridCellSize, this.majorGridSizeInCells, this.majorGridSizeInCells,
+                        this.majorGridLineWidth, Color.DarkGray);
             }
 
             if (this.isXZGridVisible)
             {
                 Grid.Draw(gl, 2, new Point(), this.gridCellSize, this.gridSizeInCells, this.gridSizeInCells,
-                        this.gridLineWidth, System.Drawing.Color.DarkGray);
+                        this.gridLineWidth, Color.DarkGray);
+                Grid.Draw(gl, 2, new Point(), this.majorGridCellSize, this.majorGridSizeInCells, this.majorGridSizeInCells,
+                        this.majorGridLineWidth, Color.DarkGray);
             }
 
             if (this.isCreatingMode)
             {
                 GLDrawHelper.DrawCube3D(gl, this.cubeX, this.cubeY, 0.0f,
-                        this.cubeSize, 3.0f, System.Drawing.Color.OrangeRed);
+                        this.cubeSize, 3.0f, Color.OrangeRed);
             }
 
             if (this.isCubeCreated)
             {
                 GLDrawHelper.DrawFilledCube3D(gl, this.cubeX, this.cubeY, 0.0f,
-                        this.cubeSize, System.Drawing.Color.LightSkyBlue);
+                        this.cubeSize, Color.LightSkyBlue);
             }
 
             if (this.isCoolPlaneVisible)
@@ -187,14 +196,14 @@ namespace MineCad
 
             foreach (var tank in this.tankPlatoon)
             {
-                tank.Draw(gl, System.Drawing.Color.Green, System.Drawing.Color.Green, System.Drawing.Color.Green);
+                tank.Draw(gl, Color.Green, Color.Green, Color.Green);
             }
 
             if (wasFire)
             {
                 foreach (var bullet in this.bullets)
                 {
-                    bullet.Draw(gl, 0.09f, System.Drawing.Color.Red);
+                    bullet.Draw(gl, 0.09f, Color.Red);
                     bullet.Go();
                 }
             }
@@ -256,37 +265,37 @@ namespace MineCad
         {
             if (this.isPlaneVisible)
             {
-                GLDrawHelper.DrawPlane2D(gl, 2, 0.0f, 0.0f, -10.0f, 5.0f, System.Drawing.Color.Coral);
+                GLDrawHelper.DrawPlane2D(gl, 2, 0.0f, 0.0f, -10.0f, 5.0f, Color.Coral);
             }
 
             if (this.isCubeVisible)
             {
-                GLDrawHelper.DrawFilledCube3D(gl, 0.0f, 0.0f, -20.0f, 5.0f, System.Drawing.Color.DarkGreen);
+                GLDrawHelper.DrawFilledCube3D(gl, 0.0f, 0.0f, -20.0f, 5.0f, Color.DarkGreen);
             }
 
             if (this.isParallelepipedVisible)
             {
-                GLDrawHelper.DrawFilledBox3D(gl, 0.0f, 0.0f, -30.0f, 4.0f, 3.0f, 5.0f, System.Drawing.Color.Aqua);
+                GLDrawHelper.DrawFilledBox3D(gl, 0.0f, 0.0f, -30.0f, 4.0f, 3.0f, 5.0f, Color.Aqua);
             }
 
             if (this.isPyramidVisible)
             {
-                GLDrawHelper.DrawPyramid(gl, 5.0f, 6.0f, 3.0f, System.Drawing.Color.CadetBlue, System.Drawing.Color.Gold);
+                GLDrawHelper.DrawPyramid(gl, 5.0f, 6.0f, 3.0f, Color.CadetBlue, Color.Gold);
             }
 
             if (this.isCylinderVisible)
             {
-                GLDrawHelper.DrawCylinder(gl, 10.0f, 2.5f, 2.5f, 24, System.Drawing.Color.LightSkyBlue, System.Drawing.Color.Chocolate);
+                GLDrawHelper.DrawCylinder(gl, 10.0f, 2.5f, 2.5f, 24, Color.LightSkyBlue, Color.Chocolate);
             }
 
             if (this.isConeVisible)
             {
-                GLDrawHelper.DrawCylinder(gl, 10.0f, 2.5f, 0.0f, 24, System.Drawing.Color.LightSkyBlue, System.Drawing.Color.Chocolate);
+                GLDrawHelper.DrawCylinder(gl, 10.0f, 2.5f, 0.0f, 24, Color.LightSkyBlue, Color.Chocolate);
             }
 
             if (this.isSphereVisible)
             {
-                GLDrawHelper.DrawSphere(gl, 4.0f, System.Drawing.Color.Red, System.Drawing.Color.SeaShell);
+                GLDrawHelper.DrawSphere(gl, 4.0f, Color.Red, Color.SeaShell);
             }
         }
 

@@ -180,7 +180,7 @@ namespace MineCad
                      color.G / colorConversionConstant,
                      color.B / colorConversionConstant);
 
-            gl.Begin(SharpGL.OpenGL.GL_POLYGON);
+            gl.Begin(SharpGL.OpenGL.GL_QUADS);
 
             gl.Vertex(this.points[0].X, this.points[0].Y, this.points[0].Z);
             gl.Vertex(this.points[1].X, this.points[1].Y, this.points[1].Z);
@@ -221,7 +221,7 @@ namespace MineCad
                      color.G / colorConversionConstant,
                      color.B / colorConversionConstant);
 
-                gl.Begin(SharpGL.OpenGL.GL_POLYGON);
+                gl.Begin(SharpGL.OpenGL.GL_QUADS);
 
                 gl.Vertex(leftTop.X, leftTop.Y, leftTop.Z);
                 gl.Vertex(rigthTop.X, rigthTop.Y, rigthTop.Z);
