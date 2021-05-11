@@ -88,7 +88,7 @@ namespace MineCad
 
         private Quadrangle plane;
 
-        private Bullet[] bullets = { new Bullet(), new Bullet(), new Bullet() };
+        private HighExplosiveBullet[] bullets = { new HighExplosiveBullet(), new HighExplosiveBullet(), new HighExplosiveBullet() };
         private bool wasFire = false;
 
         public MainForm()
@@ -203,8 +203,8 @@ namespace MineCad
             {
                 foreach (var bullet in this.bullets)
                 {
-                    bullet.Draw(gl, 0.09f, Color.Red);
-                    bullet.Go();
+                    bullet.Draw(gl, Color.Red);
+                    bullet.Run();
                 }
             }
 
@@ -240,7 +240,7 @@ namespace MineCad
                     }
                 }
 
-                tank.Go();
+                tank.Run();
             }
 
             gl.Flush();

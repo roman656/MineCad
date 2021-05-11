@@ -5,18 +5,20 @@ using System.Threading.Tasks;
 
 namespace MineCad
 {
-    class Bullet
+    class HighExplosiveBullet : IBullet
     {
         private Point center = new Point();
         private int timeDelay = 60;
         private Point step = new Point(5.0f, 0.0f, 0.0f);
         private float distance = 100.0f;
+        private Sphere bullet = new Sphere(new Point(), 0.5f, 12);
 
-        public Bullet() {}
+        public HighExplosiveBullet() {}
 
-        public Bullet(in Point center)
+        public HighExplosiveBullet(in Point center)
         {
             this.center = (Point)center.Clone();
+            this.bullet.Center = this.center;
         }
 
         public Point Step
@@ -32,7 +34,7 @@ namespace MineCad
             }
         }
 
-        public async void Go()
+        public async void Run()
         {
             await Task.Run(() =>
             {
@@ -40,17 +42,20 @@ namespace MineCad
                 this.center.Y += step.Y;
                 this.center.Z += step.Z;
 
+                this.bullet.Center = this.center;
+
                 Thread.Sleep(this.timeDelay);
             });
         }
 
-        public void Draw(OpenGL gl, float diameter, Color color)
+        public void Draw(OpenGL gl, Color color)
         {
-            gl.Translate(this.center.X, this.center.Y, this.center.Z);
+            this.bullet.Draw(gl, color);
+        }
 
-            GLDrawHelper.DrawSphere(gl, diameter, color, color);
-
-            gl.Translate(-this.center.X, -this.center.Y, -this.center.Z);
+        public object Clone()
+        {
+            return new HighExplosiveBullet(this.center);
         }
     }
 }

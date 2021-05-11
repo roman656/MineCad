@@ -88,7 +88,7 @@ namespace MineCad
             }
         }
 
-        public async void Go()
+        public async void Run()
         {
             await Task.Run(() =>
             {
@@ -100,9 +100,9 @@ namespace MineCad
             });
         }
 
-        public Bullet Fire()
+        public HighExplosiveBullet Fire()
         {
-            Bullet bullet = new Bullet(new Point(this.center.X, 2.7f + this.center.Y, this.center.Z));
+            HighExplosiveBullet bullet = new HighExplosiveBullet(new Point(this.center.X, 2.7f + this.center.Y, this.center.Z));
 
             if (this.rotationValue.Y < 0.0f)
             {

@@ -79,7 +79,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Axes.cs" />
-    <Compile Include="Bullet.cs" />
+    <Compile Include="Box.cs" />
+    <Compile Include="HighExplosiveBullet.cs" />
+    <Compile Include="IBullet.cs" />
+    <Compile Include="IMineCadObject.cs" />
     <Compile Include="IPlane.cs" />
     <Compile Include="Quadrangle.cs" />
     <Compile Include="Grid.cs" />

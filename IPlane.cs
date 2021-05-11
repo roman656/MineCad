@@ -3,7 +3,7 @@ using System.Drawing;
 
 namespace MineCad
 {
-    interface IPlane : ICloneable
+    interface IPlane : ICloneable, IMineCadObject
     {
         bool CheckPoints(in Point[] points);
         void Draw(SharpGL.OpenGL gl, Point[] points, Color color);
