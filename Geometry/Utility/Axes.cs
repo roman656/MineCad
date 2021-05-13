@@ -1,5 +1,7 @@
-﻿using System;
+﻿using MineCad.Geometry.Primitives.Flat;
+using System;
 using System.Drawing;
+using Point = MineCad.Geometry.Primitives.Flat.Point;
 
 namespace MineCad
 {

@@ -1,12 +1,15 @@
-﻿using SharpGL;
+﻿using MineCad.Geometry.Primitives.Flat;
+using MineCad.Geometry.Primitives.Volumetric;
+using SharpGL;
 using System;
 using System.Drawing;
 using System.Threading;
 using System.Threading.Tasks;
+using Point = MineCad.Geometry.Primitives.Flat.Point;
 
 namespace MineCad
 {
-    class Tank : ICloneable
+    class Tank : ICloneable, IMineCadObject
     {
         private int timeDelay = 60;
         private Point center = new Point();

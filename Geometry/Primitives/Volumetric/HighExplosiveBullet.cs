@@ -2,10 +2,11 @@
 using System.Drawing;
 using System.Threading;
 using System.Threading.Tasks;
+using Point = MineCad.Geometry.Primitives.Flat.Point;
 
-namespace MineCad
+namespace MineCad.Geometry.Primitives.Volumetric
 {
-    class HighExplosiveBullet : IBullet
+    public class HighExplosiveBullet : IBullet
     {
         private Point center = new Point();
         private int timeDelay = 60;

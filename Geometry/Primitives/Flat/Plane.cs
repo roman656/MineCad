@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Drawing;
 
-namespace MineCad
+namespace MineCad.Geometry.Primitives.Flat
 {
-    class Plane : ICloneable
+    public class Plane : ICloneable
     {
         /* 
          * Константа, необходимая для конвертации RGB цвета [0; 255]
@@ -155,13 +155,9 @@ namespace MineCad
 
         public void DrawOutline(SharpGL.OpenGL gl, float width, Color color)
         {
-            /* Установка толщины линий. */
             gl.LineWidth(width);
 
-            /* Установка цвета линий. */
-            gl.Color(color.R / colorConversionConstant,
-                     color.G / colorConversionConstant,
-                     color.B / colorConversionConstant);
+            gl.Color(color.R, color.G, color.B, color.A);
 
             gl.Begin(SharpGL.OpenGL.GL_LINE_LOOP);
 
@@ -175,10 +171,7 @@ namespace MineCad
 
         public void Draw(SharpGL.OpenGL gl, Color color)
         {
-            /* Установка цвета плоскости. */
-            gl.Color(color.R / colorConversionConstant,
-                     color.G / colorConversionConstant,
-                     color.B / colorConversionConstant);
+            gl.Color(color.R, color.G, color.B, color.A);
 
             gl.Begin(SharpGL.OpenGL.GL_QUADS);
 
@@ -196,9 +189,7 @@ namespace MineCad
             {
                 gl.LineWidth(width);
 
-                gl.Color(color.R / colorConversionConstant,
-                         color.G / colorConversionConstant,
-                         color.B / colorConversionConstant);
+                gl.Color(color.R, color.G, color.B, color.A);
 
                 gl.Begin(SharpGL.OpenGL.GL_LINE_LOOP);
 
@@ -217,9 +208,7 @@ namespace MineCad
         {
             if (CheckPoints(leftTop, rigthTop, rigthBottom))
             {
-                gl.Color(color.R / colorConversionConstant,
-                     color.G / colorConversionConstant,
-                     color.B / colorConversionConstant);
+                gl.Color(color.R, color.G, color.B, color.A);
 
                 gl.Begin(SharpGL.OpenGL.GL_QUADS);
 

@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using Point = MineCad.Geometry.Primitives.Flat.Point;
 
-namespace MineCad
+namespace MineCad.Geometry.Primitives.Volumetric
 {
     class Sphere : ICloneable
     {

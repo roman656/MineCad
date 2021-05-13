@@ -1,11 +1,9 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 
-namespace MineCad
+namespace MineCad.Geometry.Primitives.Flat
 {
-    class Quadrangle:IPlane
+    public class Quadrangle : IFlat
     {
-        private const float colorConversionConstant = byte.MaxValue;
         private Point[] points;
 
 
@@ -87,13 +85,9 @@ namespace MineCad
 
         public void DrawOutline(SharpGL.OpenGL gl, float width, Color color)
         {
-            /* Установка толщины линий. */
             gl.LineWidth(width);
 
-            /* Установка цвета линий. */
-            gl.Color(color.R / colorConversionConstant,
-                     color.G / colorConversionConstant,
-                     color.B / colorConversionConstant);
+            gl.Color(color.R, color.G, color.B, color.A);
 
             gl.Begin(SharpGL.OpenGL.GL_LINE_LOOP);
 
@@ -109,13 +103,11 @@ namespace MineCad
         {
             if (this.CheckPoints(points))
             {
-                gl.Color(color.R / colorConversionConstant,
-                     color.G / colorConversionConstant,
-                     color.B / colorConversionConstant);
+                gl.Color(color.R, color.G, color.B, color.A);
 
                 gl.Begin(SharpGL.OpenGL.GL_POLYGON);
 
-               foreach(Point p in points)
+                foreach(Point p in points)
                 {
                     gl.Vertex(p.X, p.Y, p.Z);
                 }
@@ -126,10 +118,7 @@ namespace MineCad
 
         public void Draw(SharpGL.OpenGL gl, Color color)
         {
-            /* Установка цвета плоскости. */
-            gl.Color(color.R / colorConversionConstant,
-                     color.G / colorConversionConstant,
-                     color.B / colorConversionConstant);
+            gl.Color(color.R, color.G, color.B, color.A);
 
             gl.Begin(SharpGL.OpenGL.GL_POLYGON);
 

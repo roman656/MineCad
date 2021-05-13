@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using MineCad.Geometry.Primitives.Flat;
+using MineCad.Geometry.Primitives.Volumetric;
 using SharpGL;
+using Point = MineCad.Geometry.Primitives.Flat.Point;
 
 namespace MineCad
 {

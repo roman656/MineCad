@@ -64,8 +64,8 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Design" />
-    <Reference Include="System.Drawing.Common, Version=4.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>packages\System.Drawing.Common.4.7.0\lib\net461\System.Drawing.Common.dll</HintPath>
+    <Reference Include="System.Drawing.Common, Version=4.0.0.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Drawing.Common.5.0.2\lib\net461\System.Drawing.Common.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -78,28 +78,34 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Axes.cs" />
-    <Compile Include="Box.cs" />
-    <Compile Include="HighExplosiveBullet.cs" />
-    <Compile Include="IBullet.cs" />
+    <Compile Include="Geometry\Primitives\Volumetric\IVolumetric.cs" />
+    <Compile Include="IMoveable.cs" />
+    <Compile Include="Geometry\Utility\Axes.cs" />
+    <Compile Include="Geometry\Primitives\Volumetric\Box.cs" />
+    <Compile Include="Geometry\Primitives\Volumetric\HighExplosiveBullet.cs" />
+    <Compile Include="Geometry\Primitives\Volumetric\IBullet.cs" />
     <Compile Include="IMineCadObject.cs" />
-    <Compile Include="IPlane.cs" />
-    <Compile Include="Quadrangle.cs" />
-    <Compile Include="Grid.cs" />
-    <Compile Include="Plane.cs" />
-    <Compile Include="Line.cs" />
+    <Compile Include="Geometry\Primitives\Flat\IFlat.cs" />
+    <Compile Include="Geometry\Primitives\Flat\Quadrangle.cs" />
+    <Compile Include="Geometry\Utility\Grid.cs" />
+    <Compile Include="Geometry\Primitives\Flat\Plane.cs" />
+    <Compile Include="Geometry\Primitives\Flat\Line.cs" />
+    <Compile Include="IRotatable.cs" />
+    <Compile Include="IScaleable.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="GLDrawHelper.cs" />
-    <Compile Include="Point.cs" />
+    <Compile Include="Geometry\Utility\GLDrawHelper.cs" />
+    <Compile Include="Geometry\Primitives\Flat\Point.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Sphere.cs" />
-    <Compile Include="Tank.cs" />
+    <Compile Include="Geometry\Primitives\Volumetric\Sphere.cs" />
+    <Compile Include="Geometry\Primitives\Volumetric\Tank\Tank.cs" />
+    <Compile Include="Geometry\Primitives\Volumetric\Tank\Turret.cs" />
+    <Compile Include="Utility\Math.cs" />
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -143,5 +149,6 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

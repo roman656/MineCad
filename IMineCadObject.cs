@@ -1,4 +1,6 @@
-﻿namespace MineCad
+﻿using System;
+
+namespace MineCad
 {
-    interface IMineCadObject {}
+    public interface IMineCadObject : ICloneable {}
 }

@@ -2,59 +2,59 @@
 using System;
 using System.Drawing;
 
-namespace MineCad
+namespace MineCad.Geometry.Primitives.Volumetric
 {
-    class Box : ICloneable, IMineCadObject
+    public class Box : IMineCadObject
     {
         /* 
          * Константа, необходимая для конвертации RGB цвета [0; 255]
          * в RGB цвет [0.0f; 1.0f].
          */
         private const float colorConversionConstant = byte.MaxValue;
-        private Point center = new Point();
+        private Flat.Point center = new Flat.Point();
         private float sizeX = 1.0f;
         private float sizeY = 1.0f;
         private float sizeZ = 1.0f;
 
         public Box() {}
 
-        public Box(in Point center, float sizeX, float sizeY, float sizeZ)
+        public Box(in Flat.Point center, float sizeX, float sizeY, float sizeZ)
         {
-            this.center = (Point)center.Clone();
+            this.center = (Flat.Point)center.Clone();
             this.sizeX = (sizeX > 0.0f) ? sizeX : 1.0f;
             this.sizeY = (sizeY > 0.0f) ? sizeY : 1.0f;
             this.sizeZ = (sizeZ > 0.0f) ? sizeZ : 1.0f;
         }
 
         /* Построение параллелепипеда по 2м точкам его диагонали. */
-        public Box(in Point begin, in Point end)
+        public Box(in Flat.Point begin, in Flat.Point end)
         {
             if (begin.X == end.X && begin.Y == end.Y && begin.Z == end.Z)
             {
-                this.center = (Point)center.Clone();
+                this.center = (Flat.Point)center.Clone();
                 this.sizeX = (sizeX > 0.0f) ? sizeX : 1.0f;
                 this.sizeY = (sizeY > 0.0f) ? sizeY : 1.0f;
                 this.sizeZ = (sizeZ > 0.0f) ? sizeZ : 1.0f;
             }
             else
             {
-                this.center = Line.GetCenter(begin, end);
+                this.center = Flat.Line.GetCenter(begin, end);
                 this.sizeX = (Math.Abs(begin.X - end.X) > 0.0f) ? Math.Abs(begin.X - end.X) : 1.0f;
                 this.sizeY = (Math.Abs(begin.Y - end.Y) > 0.0f) ? Math.Abs(begin.Y - end.Y) : 1.0f;
                 this.sizeZ = (Math.Abs(begin.Z - end.Z) > 0.0f) ? Math.Abs(begin.Z - end.Z) : 1.0f;
             }
         }
 
-        public Point Center
+        public Flat.Point Center
         {
             get
             {
-                return (Point)this.center.Clone();
+                return (Flat.Point)this.center.Clone();
             }
 
             set
             {
-                this.center = (Point)value.Clone();
+                this.center = (Flat.Point)value.Clone();
             }
         }
 
@@ -111,10 +111,7 @@ namespace MineCad
             /* Установка толщины линий. */
             gl.LineWidth(width);
 
-            /* Установка цвета линий. */
-            gl.Color(color.R / colorConversionConstant,
-                     color.G / colorConversionConstant,
-                     color.B / colorConversionConstant);
+            gl.Color(color.R, color.G, color.B, color.A);
 
             /* Отрисовка ребер верхней грани. */
             gl.Begin(OpenGL.GL_LINE_LOOP);
@@ -156,10 +153,7 @@ namespace MineCad
 
         public void Draw(OpenGL gl, Color color)
         {
-            /* Установка цвета параллелепипеда. */
-            gl.Color(color.R / colorConversionConstant,
-                     color.G / colorConversionConstant,
-                     color.B / colorConversionConstant);
+            gl.Color(color.R, color.G, color.B, color.A);
 
             gl.Begin(OpenGL.GL_QUADS);
 
@@ -198,15 +192,12 @@ namespace MineCad
             gl.End();
         }
 
-        public static void DrawOutline(OpenGL gl, in Point center, float sizeX, float sizeY, float sizeZ, float width, Color color)
+        public static void DrawOutline(OpenGL gl, in Flat.Point center, float sizeX, float sizeY, float sizeZ, float width, Color color)
         {
             /* Установка толщины линий. */
             gl.LineWidth(width);
 
-            /* Установка цвета линий. */
-            gl.Color(color.R / colorConversionConstant,
-                     color.G / colorConversionConstant,
-                     color.B / colorConversionConstant);
+            gl.Color(color.R, color.G, color.B, color.A);
 
             /* Отрисовка ребер верхней грани. */
             gl.Begin(OpenGL.GL_LINE_LOOP);
@@ -246,12 +237,9 @@ namespace MineCad
             gl.End();
         }
 
-        public static void Draw(OpenGL gl, in Point center, float sizeX, float sizeY, float sizeZ, Color color)
+        public static void Draw(OpenGL gl, in Flat.Point center, float sizeX, float sizeY, float sizeZ, Color color)
         {
-            /* Установка цвета параллелепипеда. */
-            gl.Color(color.R / colorConversionConstant,
-                     color.G / colorConversionConstant,
-                     color.B / colorConversionConstant);
+            gl.Color(color.R, color.G, color.B, color.A);
 
             gl.Begin(OpenGL.GL_QUADS);
 

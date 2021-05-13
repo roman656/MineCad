@@ -1,15 +1,10 @@
-﻿using System;
+﻿using SharpGL;
 using System.Drawing;
 
-namespace MineCad
+namespace MineCad.Geometry.Primitives.Flat
 {
-    class Line : ICloneable
+    public class Line : IFlat
     {
-        /* 
-         * Константа, необходимая для конвертации RGB цвета [0; 255]
-         * в RGB цвет [0.0f; 1.0f].
-         */
-        private const float colorConversionConstant = byte.MaxValue;
         private Point begin;
         private Point end;
 
@@ -56,22 +51,18 @@ namespace MineCad
             get
             {
                 return new Point((this.begin.X + this.end.X) / 2.0f,
-                        (this.begin.Y + this.end.Y) / 2.0f,
-                        (this.begin.Z + this.end.Z) / 2.0f);
+                                 (this.begin.Y + this.end.Y) / 2.0f,
+                                 (this.begin.Z + this.end.Z) / 2.0f);
             }
         }
 
-        public void Draw(SharpGL.OpenGL gl, float width, Color color)
+        public void Draw(OpenGL gl, float width, Color color)
         {
-            /* Установка толщины линии. */
             gl.LineWidth(width);
 
-            /* Установка цвета линии. */
-            gl.Color(color.R / colorConversionConstant,
-                     color.G / colorConversionConstant,
-                     color.B / colorConversionConstant);
+            gl.Color(color.R, color.G, color.B, color.A);
 
-            gl.Begin(SharpGL.OpenGL.GL_LINES);
+            gl.Begin(OpenGL.GL_LINES);
 
             gl.Vertex(this.begin.X, this.begin.Y, this.begin.Z);
             gl.Vertex(this.end.X, this.end.Y, this.end.Z);
@@ -79,15 +70,13 @@ namespace MineCad
             gl.End();
         }
 
-        public static void Draw(SharpGL.OpenGL gl, in Point begin, in Point end, float width, Color color)
+        public static void Draw(OpenGL gl, in Point begin, in Point end, float width, Color color)
         {
             gl.LineWidth(width);
 
-            gl.Color(color.R / colorConversionConstant,
-                     color.G / colorConversionConstant,
-                     color.B / colorConversionConstant);
+            gl.Color(color.R, color.G, color.B, color.A);
 
-            gl.Begin(SharpGL.OpenGL.GL_LINES);
+            gl.Begin(OpenGL.GL_LINES);
 
             gl.Vertex(begin.X, begin.Y, begin.Z);
             gl.Vertex(end.X, end.Y, end.Z);
@@ -95,17 +84,14 @@ namespace MineCad
             gl.End();
         }
 
-        public static void Draw(SharpGL.OpenGL gl, float beginX, float beginY, float beginZ,
-                                                   float endX, float endY, float endZ,
-                                                   float width, Color color)
+        public static void Draw(OpenGL gl, float beginX, float beginY, float beginZ,
+                float endX, float endY, float endZ, float width, Color color)
         {
             gl.LineWidth(width);
 
-            gl.Color(color.R / colorConversionConstant,
-                     color.G / colorConversionConstant,
-                     color.B / colorConversionConstant);
+            gl.Color(color.R, color.G, color.B, color.A);
 
-            gl.Begin(SharpGL.OpenGL.GL_LINES);
+            gl.Begin(OpenGL.GL_LINES);
 
             gl.Vertex(beginX, beginY, beginZ);
             gl.Vertex(endX, endY, endZ);
