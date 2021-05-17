@@ -107,6 +107,18 @@ namespace MineCad.Geometry.Primitives.Flat
             }
         }
 
+        public Point[] Points
+        {
+            get
+            {
+                Point[] output = { (Point)this.points[0].Clone(),
+                                   (Point)this.points[1].Clone(),
+                                   (Point)this.points[2].Clone(),
+                                   (Point)this.points[3].Clone() };
+                return output;
+            }
+        }
+
         public Point Center
         {
             get

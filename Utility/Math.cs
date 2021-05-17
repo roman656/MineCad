@@ -69,7 +69,25 @@ namespace MineCad.Utility
             double S = C.Abs / 2.0;
 
             /* Если площадь образуемого этими точками треугольника равна 0, то они на 1й прямой. */
-            return (S == 0.0) ? true : false;
+            return (S == 0.0);
+        }
+
+        /*
+         * Проверка компланарности 3х векторов.
+         * 3 вектора называются компланарными, если они, будучи приведенными к общему началу, лежат в одной плоскости.
+         * Смешанное произведение компланарных векторов равно 0.
+         * Возвращает: true - вектора компланарны; false - в противном случае.
+         */
+        public static bool CheckVectorsCoplanarity(in Point vectorA, in Point vectorB, in Point vectorC)
+        {
+            float determinant = vectorA.X * vectorB.Y * vectorC.Z
+                              + vectorA.Y * vectorB.Z * vectorC.X
+                              + vectorA.Z * vectorB.X * vectorC.Y
+                              - vectorA.Z * vectorB.Y * vectorC.X
+                              - vectorA.X * vectorB.Z * vectorC.Y
+                              - vectorA.Y * vectorB.X * vectorC.Z;
+
+            return (determinant == 0.0f);
         }
     }
 }

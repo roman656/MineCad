@@ -1,4 +1,6 @@
-﻿using System.Drawing;
+﻿using SharpGL;
+using System;
+using System.Drawing;
 
 namespace MineCad.Geometry.Primitives.Flat
 {
@@ -10,38 +12,136 @@ namespace MineCad.Geometry.Primitives.Flat
                                    new Point( 1.0f, 0.0f,  1.0f),
                                    new Point(-1.0f, 0.0f,  1.0f) };
 
+        /*
+         * Проверяет, существует ли четырехугольник при данных точках.
+         * Возвращает: true - четырехугольник существует; false - в противном случае.
+         */
+        private bool CheckPoints(in Point leftTop, in Point rigthTop, in Point rigthBottom, in Point leftBottom)
+        {
+            bool result = true;
+
+            /* Вектора по координатам точек (хранятся в Point ради удобства). */
+            Point AB = new Point(rigthTop.X - leftTop.X, rigthTop.Y - leftTop.Y, rigthTop.Z - leftTop.Z);
+            Point BC = new Point(rigthBottom.X - rigthTop.X, rigthBottom.Y - rigthTop.Y, rigthBottom.Z - rigthTop.Z);
+            Point CD = new Point(leftBottom.X - rigthBottom.X, leftBottom.Y - rigthBottom.Y, leftBottom.Z - rigthBottom.Z);
+            
+            result = result && Utility.Math.CheckVectorsCoplanarity(AB, BC, CD);
+            result = result && (Utility.Math.CheckHasLineThisPoint(new Line(leftTop, rigthTop), rigthBottom) == false);
+            result = result && (Utility.Math.CheckHasLineThisPoint(new Line(rigthTop, rigthBottom), leftBottom) == false);
+            result = result && (Utility.Math.CheckHasLineThisPoint(new Line(rigthBottom, leftBottom), leftTop) == false);
+            result = result && (Utility.Math.CheckHasLineThisPoint(new Line(leftBottom, leftTop), rigthTop) == false);
+
+            return result;
+        }
+
+        private void RecalculateCenter()
+        {
+            Point tempCenter1 = Line.GetCenter(this.points[0], this.points[2]);
+            Point tempCenter2 = Line.GetCenter(this.points[1], this.points[3]);
+            this.center = Line.GetCenter(tempCenter1, tempCenter2);
+        }
+
         public Quadrangle() {}
 
-        public Quadrangle(Point[] points)
+        public Quadrangle(in Point leftTop, in Point rigthTop, in Point rigthBottom, in Point leftBottom)
         {
-            if (this.CheckPoints(points))
+            if (CheckPoints(leftTop, rigthTop, rigthBottom, leftBottom) == false)
             {
-                this.points = points;
+                throw new ArgumentException("Impossible to create a quadrangle based on this points.");
             }
-            else
+
+            this.points[0] = (Point)leftTop.Clone();
+            this.points[1] = (Point)rigthTop.Clone();
+            this.points[2] = (Point)rigthBottom.Clone();
+            this.points[3] = (Point)leftBottom.Clone();
+            RecalculateCenter();
+        }
+
+        public Point LeftTop
+        {
+            get
             {
-                this.points = null;
+                return (Point)this.points[0].Clone();
+            }
+
+            set
+            {
+                if (CheckPoints(value, this.points[1], this.points[2], this.points[3]) == false)
+                {
+                    throw new ArgumentException("Impossible to modify the quadrangle: the new quadrangle is undefined.");
+                }
+
+                this.points[0] = (Point)value.Clone();
+                RecalculateCenter();
             }
         }
 
-        public bool CheckPoints()
+        public Point RightTop
         {
-            return this.points != null;
+            get
+            {
+                return (Point)this.points[1].Clone();
+            }
+
+            set
+            {
+                if (CheckPoints(this.points[0], value, this.points[2], this.points[3]) == false)
+                {
+                    throw new ArgumentException("Impossible to modify the quadrangle: the new quadrangle is undefined.");
+                }
+
+                this.points[1] = (Point)value.Clone();
+                RecalculateCenter();
+            }
+        }
+
+        public Point RightBottom
+        {
+            get
+            {
+                return (Point)this.points[2].Clone();
+            }
+
+            set
+            {
+                if (CheckPoints(this.points[0], this.points[1], value, this.points[3]) == false)
+                {
+                    throw new ArgumentException("Impossible to modify the quadrangle: the new quadrangle is undefined.");
+                }
+
+                this.points[2] = (Point)value.Clone();
+                RecalculateCenter();
+            }
+        }
+
+        public Point LeftBottom
+        {
+            get
+            {
+                return (Point)this.points[3].Clone();
+            }
+
+            set
+            {
+                if (CheckPoints(this.points[0], this.points[1], this.points[2], value) == false)
+                {
+                    throw new ArgumentException("Impossible to modify the quadrangle: the new quadrangle is undefined.");
+                }
+
+                this.points[3] = (Point)value.Clone();
+                RecalculateCenter();
+            }
         }
 
         public Point[] Points
         {
             get
             {
-                return (Point[])this.points.Clone();
-            }
-
-            set
-            {
-                if (CheckPoints(value))
-                {
-                    this.points = (Point[])value.Clone();
-                }
+                Point[] output = { (Point)this.points[0].Clone(),
+                                   (Point)this.points[1].Clone(),
+                                   (Point)this.points[2].Clone(),
+                                   (Point)this.points[3].Clone() };
+                return output;
             }
         }
 
@@ -49,52 +149,17 @@ namespace MineCad.Geometry.Primitives.Flat
         {
             get
             {
-                return this.CheckPoints() ? Line.GetCenter(
-                        (Point)this.points[0].Clone(),
-                        (Point)this.points[2].Clone()
-                 ) : null;
+                return (Point)this.center.Clone();
             }
         }
 
-        public bool CheckPoints(in Point[] points)
-        {
-            if (points.Length != 4){
-                return false;
-            }
-
-            Point AB = new Point(
-                points[0].X - points[1].X, points[0].Y - points[1].Y, points[0].Z - points[1].Z
-            );
-
-            Point CD = new Point(
-                points[2].X - points[3].X, points[2].Y - points[3].Y, points[2].Z - points[3].Z
-            );
-
-            Point BC = new Point(
-                points[1].X - points[2].X, points[1].Y - points[2].Y, points[1].Z - points[2].Z
-            );
-
-            ///<coplanarity>
-            ///
-            /// 
-            ///     | AB.X AB.Y AB.Z|     
-            ///  det| BC.X BC.Y BC.Z| = 0
-            ///     | CD.X CD.Y CD.Z| 
-            /// 
-            ///   </ coplanarity>
-
-            float det = AB.X * (BC.Y * CD.Z - CD.Y * BC.Z) - AB.Y * (BC.X * CD.Z - BC.Z* CD.X) + AB.Z * (BC.X * CD.Y - BC.Y * CD.X);
-
-            return det == 0.0f;
-        }
-
-        public void DrawOutline(SharpGL.OpenGL gl, float width, Color color)
+        public void Draw(OpenGL gl, float width, Color color)
         {
             gl.LineWidth(width);
 
             gl.Color(color.R, color.G, color.B, color.A);
 
-            gl.Begin(SharpGL.OpenGL.GL_LINE_LOOP);
+            gl.Begin(OpenGL.GL_LINE_LOOP);
 
             gl.Vertex(this.points[0].X, this.points[0].Y, this.points[0].Z);
             gl.Vertex(this.points[1].X, this.points[1].Y, this.points[1].Z);
@@ -104,31 +169,11 @@ namespace MineCad.Geometry.Primitives.Flat
             gl.End();
         }
 
-        public void Draw(SharpGL.OpenGL gl, float points, Color color)
-        { }
-
-            public void Draw(SharpGL.OpenGL gl, Point[] points, Color color)
-        {
-            if (this.CheckPoints(points))
-            {
-                gl.Color(color.R, color.G, color.B, color.A);
-
-                gl.Begin(SharpGL.OpenGL.GL_QUADS);
-
-                foreach(Point p in points)
-                {
-                    gl.Vertex(p.X, p.Y, p.Z);
-                }
-
-                gl.End();
-            }
-        }
-
-        public void Draw(SharpGL.OpenGL gl, Color color)
+        public void DrawArea(OpenGL gl, Color color)
         {
             gl.Color(color.R, color.G, color.B, color.A);
 
-            gl.Begin(SharpGL.OpenGL.GL_QUADS);
+            gl.Begin(OpenGL.GL_QUADS);
 
             gl.Vertex(this.points[0].X, this.points[0].Y, this.points[0].Z);
             gl.Vertex(this.points[1].X, this.points[1].Y, this.points[1].Z);
@@ -140,7 +185,7 @@ namespace MineCad.Geometry.Primitives.Flat
 
         public object Clone()
         {
-            return new Quadrangle(this.points);
+            return new Quadrangle(this.points[0], this.points[1], this.points[2], this.points[3]);
         }
     }
 }
