@@ -104,11 +104,6 @@ namespace MineCad.Geometry.Primitives.Flat
             return new Point((begin.X + end.X) / 2.0f, (begin.Y + end.Y) / 2.0f, (begin.Z + end.Z) / 2.0f);
         }
 
-        public static Point GetCenter(float beginX, float beginY, float beginZ, float endX, float endY, float endZ)
-        {
-            return new Point((beginX + endX) / 2.0f, (beginY + endY) / 2.0f, (beginZ + endZ) / 2.0f);
-        }
-
         public object Clone()
         {
             return new Line(this.begin, this.end);

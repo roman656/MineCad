@@ -89,6 +89,14 @@ namespace MineCad.Geometry.Primitives.Flat
             }
         }
 
+        public double Abs
+        {
+            get
+            {
+                return Math.Sqrt(this.x * this.x + this.y * this.y + this.z * this.z);
+            }
+        }
+
         public void Draw(OpenGL gl, float size, Color color)
         {
             gl.PointSize(size);

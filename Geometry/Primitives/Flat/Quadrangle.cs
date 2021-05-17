@@ -4,8 +4,13 @@ namespace MineCad.Geometry.Primitives.Flat
 {
     public class Quadrangle : IFlat
     {
-        private Point[] points;
+        private Point center = new Point();
+        private Point[] points = { new Point(-1.0f, 0.0f, -1.0f),
+                                   new Point( 1.0f, 0.0f, -1.0f),
+                                   new Point( 1.0f, 0.0f,  1.0f),
+                                   new Point(-1.0f, 0.0f,  1.0f) };
 
+        public Quadrangle() {}
 
         public Quadrangle(Point[] points)
         {
@@ -99,13 +104,16 @@ namespace MineCad.Geometry.Primitives.Flat
             gl.End();
         }
 
-        public void Draw(SharpGL.OpenGL gl, Point[] points, Color color)
+        public void Draw(SharpGL.OpenGL gl, float points, Color color)
+        { }
+
+            public void Draw(SharpGL.OpenGL gl, Point[] points, Color color)
         {
             if (this.CheckPoints(points))
             {
                 gl.Color(color.R, color.G, color.B, color.A);
 
-                gl.Begin(SharpGL.OpenGL.GL_POLYGON);
+                gl.Begin(SharpGL.OpenGL.GL_QUADS);
 
                 foreach(Point p in points)
                 {
@@ -120,7 +128,7 @@ namespace MineCad.Geometry.Primitives.Flat
         {
             gl.Color(color.R, color.G, color.B, color.A);
 
-            gl.Begin(SharpGL.OpenGL.GL_POLYGON);
+            gl.Begin(SharpGL.OpenGL.GL_QUADS);
 
             gl.Vertex(this.points[0].X, this.points[0].Y, this.points[0].Z);
             gl.Vertex(this.points[1].X, this.points[1].Y, this.points[1].Z);

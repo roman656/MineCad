@@ -1,4 +1,6 @@
-﻿namespace MineCad.Utility
+﻿using MineCad.Geometry.Primitives.Flat;
+
+namespace MineCad.Utility
 {
     public static class Math
     {
@@ -45,6 +47,29 @@
             }
 
             return degrees;
+        }
+
+        /* 
+         * Проверяет, не находится ли полученная точка на данной прямой.
+         * В данном случае Line рассматривается, как бесконечная прямая, а не отрезок.
+         * Возвращает: true - точка находится на прямой; false - в противном случае.
+         */
+        public static bool CheckHasLineThisPoint(in Line line, in Point point)
+        {
+            /* Вектора по координатам точек (хранятся в Point ради удобства). */
+            Point AB = new Point(line.End.X - line.Begin.X, line.End.Y - line.Begin.Y, line.End.Z - line.Begin.Z);
+            Point AC = new Point(point.X - line.Begin.X, point.Y - line.Begin.Y, point.Z - line.Begin.Z);
+
+            /* Векторное произведение AB и AC. */
+            Point C = new Point((AB.Y * AC.Z - AB.Z * AC.Y),
+                                (AB.X * AC.Z - AB.Z * AC.X) * -1.0f,
+                                (AB.X * AC.Y - AB.Y * AC.X));
+
+            /* Площадь треугольника, образованного данными точками. */
+            double S = C.Abs / 2.0;
+
+            /* Если площадь образуемого этими точками треугольника равна 0, то они на 1й прямой. */
+            return (S == 0.0) ? true : false;
         }
     }
 }

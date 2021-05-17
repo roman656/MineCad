@@ -1,11 +1,10 @@
 ﻿using MineCad.Geometry.Primitives.Flat;
-using System;
 using System.Drawing;
 using Point = MineCad.Geometry.Primitives.Flat.Point;
 
 namespace MineCad
 {
-    class Grid : ICloneable
+    class Grid : IMineCadObject
     {
         private Point center = new Point();
         private float cellSize = 1.0f;

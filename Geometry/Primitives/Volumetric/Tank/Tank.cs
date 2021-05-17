@@ -125,14 +125,14 @@ namespace MineCad
 
             foreach (var temp in this.turret)
             {
-                temp.Draw(gl, turretColor);
-                temp.DrawOutline(gl, 3, Color.YellowGreen);
+                temp.DrawArea(gl, turretColor);
+                temp.Draw(gl, 3, Color.YellowGreen);
             }
             
             foreach (var temp in this.hull)
             {
-                temp.Draw(gl, hullColor);
-                temp.DrawOutline(gl, 3, Color.YellowGreen);
+                temp.DrawArea(gl, hullColor);
+                temp.Draw(gl, 3, Color.YellowGreen);
             }
 
             gl.Translate(2.5f, 2.7f, 0);
