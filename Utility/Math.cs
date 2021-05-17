@@ -61,9 +61,7 @@ namespace MineCad.Utility
             Point AC = new Point(point.X - line.Begin.X, point.Y - line.Begin.Y, point.Z - line.Begin.Z);
 
             /* Векторное произведение AB и AC. */
-            Point C = new Point((AB.Y * AC.Z - AB.Z * AC.Y),
-                                (AB.X * AC.Z - AB.Z * AC.X) * -1.0f,
-                                (AB.X * AC.Y - AB.Y * AC.X));
+            Point C = CrossProduct(AB, AC);
 
             /* Площадь треугольника, образованного данными точками. */
             double S = C.Abs / 2.0;
@@ -88,6 +86,20 @@ namespace MineCad.Utility
                               - vectorA.Y * vectorB.X * vectorC.Z;
 
             return (determinant == 0.0f);
+        }
+
+        public static Point CrossProduct(in Point vectorA, in Point vectorB)
+        {
+            Point result = new Point((vectorA.Y * vectorB.Z - vectorA.Z * vectorB.Y),
+                                     (vectorA.Z * vectorB.X - vectorA.X * vectorB.Z),
+                                     (vectorA.X * vectorB.Y - vectorA.Y * vectorB.X));
+
+            return result;
+        }
+
+        public static double DotProduct(in Point vectorA, in Point vectorB)
+        {
+            return (vectorA.X * vectorB.X + vectorA.Y * vectorB.Y + vectorA.Z * vectorB.Z);
         }
     }
 }
