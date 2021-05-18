@@ -1,40 +1,36 @@
-﻿using System;
+﻿using SharpGL;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using Point = MineCad.Geometry.Primitives.Flat.Point;
 
 namespace MineCad.Geometry.Primitives.Volumetric
 {
-    class Sphere : ICloneable
+    public class Sphere : IVolumetric
     {
-        /* 
-         * Константа, необходимая для конвертации RGB цвета [0; 255]
-         * в RGB цвет [0.0f; 1.0f].
-         */
-        private const float colorConversionConstant = byte.MaxValue;
         private Point center = new Point();
         private float radius = 1.0f;
-        private uint linesAmountInEachCircle = 4;
+        private uint edgesAmountInEachCircle = 4;
         private List<Point[]> points;
 
-        private static List<Point[]> RecalculatePoints(in Point center, float radius, uint linesAmountInEachCircle)
+        private static List<Point[]> RecalculatePoints(in Point center, float radius, uint edgesAmountInEachCircle)
         {
             List<Point[]> points = new List<Point[]>();
 
             /* Используется сферическая система координат. Углы в градусах. */
             double theta;
             double phi;
-            double pi = 180.0;
-            double deltaTheta = (pi / 2) / (linesAmountInEachCircle / 4.0);
-            double deltaPhi = (pi / 2) / (linesAmountInEachCircle / 4.0);
+            double pi = Utility.Math.piInDegrees;
+            double deltaTheta = (pi / 2.0) / (edgesAmountInEachCircle / 4.0);
+            double deltaPhi = (pi / 2.0) / (edgesAmountInEachCircle / 4.0);
 
-            for (int i = 0; i <= (linesAmountInEachCircle / 2.0f); i++)
+            for (int i = 0; i <= (edgesAmountInEachCircle / 2.0); i++)
             {
-                Point[] layerPoints = new Point[linesAmountInEachCircle];
+                Point[] layerPoints = new Point[edgesAmountInEachCircle];
 
                 theta = deltaTheta * i;
 
-                for (int j = 0; j < linesAmountInEachCircle; j++)
+                for (int j = 0; j < edgesAmountInEachCircle; j++)
                 {
                     phi = deltaPhi * j;
 
@@ -52,15 +48,20 @@ namespace MineCad.Geometry.Primitives.Volumetric
 
         public Sphere()
         {
-            this.points = RecalculatePoints(this.center, this.radius, this.linesAmountInEachCircle);
+            this.points = RecalculatePoints(this.center, this.radius, this.edgesAmountInEachCircle);
         }
 
-        public Sphere(in Point center, float radius, uint linesAmountInEachCircle)
+        public Sphere(in Point center, float radius, uint edgesAmountInEachCircle)
         {
+            if ((radius <= 0.0f) || (edgesAmountInEachCircle <= 3))
+            {
+                throw new ArgumentException("Impossible to create a sphere with the following parameters.");
+            }
+
             this.center = (Point)center.Clone();
-            this.radius = (radius > 0.0f) ? radius : 1.0f;
-            this.linesAmountInEachCircle = (linesAmountInEachCircle > 3) ? linesAmountInEachCircle : 4;
-            this.points = RecalculatePoints(this.center, this.radius, this.linesAmountInEachCircle);
+            this.radius = radius;
+            this.edgesAmountInEachCircle = edgesAmountInEachCircle;
+            this.points = RecalculatePoints(this.center, this.radius, this.edgesAmountInEachCircle);
         }
 
         public Point Center
@@ -73,7 +74,7 @@ namespace MineCad.Geometry.Primitives.Volumetric
             set
             {
                 this.center = (Point)value.Clone();
-                this.points = RecalculatePoints(this.center, this.radius, this.linesAmountInEachCircle);
+                this.points = RecalculatePoints(this.center, this.radius, this.edgesAmountInEachCircle);
             }
         }
 
@@ -86,28 +87,32 @@ namespace MineCad.Geometry.Primitives.Volumetric
 
             set
             {
-                if (value > 0.0f)
+                if (value <= 0.0f)
                 {
-                    this.radius = value;
-                    this.points = RecalculatePoints(this.center, this.radius, this.linesAmountInEachCircle);
+                    throw new ArgumentException("Impossible to modify a sphere: radius must be greater than 0.");
                 }
+
+                this.radius = value;
+                this.points = RecalculatePoints(this.center, this.radius, this.edgesAmountInEachCircle);
             }
         }
 
-        public uint LinesAmountInEachCircle
+        public uint EdgesAmountInEachCircle
         {
             get
             {
-                return this.linesAmountInEachCircle;
+                return this.edgesAmountInEachCircle;
             }
 
             set
             {
-                if (value > 3)
+                if (value <= 3)
                 {
-                    this.linesAmountInEachCircle = value;
-                    this.points = RecalculatePoints(this.center, this.radius, this.linesAmountInEachCircle);
+                    throw new ArgumentException("Impossible to modify a sphere: edges amount in each circle must be greater than 3.");
                 }
+
+                this.edgesAmountInEachCircle = value;
+                this.points = RecalculatePoints(this.center, this.radius, this.edgesAmountInEachCircle);
             }
         }
 
@@ -115,25 +120,22 @@ namespace MineCad.Geometry.Primitives.Volumetric
         {
             get
             {
-                return RecalculatePoints(this.center, this.radius, this.linesAmountInEachCircle);
+                return RecalculatePoints(this.center, this.radius, this.edgesAmountInEachCircle);
             }
         }
 
-        public void DrawOutline(SharpGL.OpenGL gl, float width, Color color)
+        public void Draw(OpenGL gl, float width, Color color)
         {
-            /* Установка толщины линий. */
             gl.LineWidth(width);
 
             /* Установка цвета линий. */
-            gl.Color(color.R / colorConversionConstant,
-                     color.G / colorConversionConstant,
-                     color.B / colorConversionConstant);
+            gl.Color(color.R, color.G, color.B, color.A);
 
             for (int i = 0; i < this.points.Count - 1; i++)
             {
-                for (int j = 0; j < this.linesAmountInEachCircle - 1; j++)
+                for (int j = 0; j < this.edgesAmountInEachCircle - 1; j++)
                 {
-                    gl.Begin(SharpGL.OpenGL.GL_LINE_STRIP);
+                    gl.Begin(OpenGL.GL_LINE_STRIP);
 
                     gl.Vertex(this.points[i][j + 1].X, this.points[i][j + 1].Y, this.points[i][j + 1].Z);
                     gl.Vertex(this.points[i][j].X, this.points[i][j].Y, this.points[i][j].Z);
@@ -143,32 +145,29 @@ namespace MineCad.Geometry.Primitives.Volumetric
                 }
 
                 /* Дополнительный элемент для корректного завершения текущего слоя, соединяющий начало с концом. */
-                gl.Begin(SharpGL.OpenGL.GL_LINE_STRIP);
+                gl.Begin(OpenGL.GL_LINE_STRIP);
 
                 gl.Vertex(this.points[i][0].X, this.points[i][0].Y, this.points[i][0].Z);
-                gl.Vertex(this.points[i][this.linesAmountInEachCircle - 1].X,
-                          this.points[i][this.linesAmountInEachCircle - 1].Y,
-                          this.points[i][this.linesAmountInEachCircle - 1].Z);
-                gl.Vertex(this.points[i + 1][this.linesAmountInEachCircle - 1].X,
-                          this.points[i + 1][this.linesAmountInEachCircle - 1].Y,
-                          this.points[i + 1][this.linesAmountInEachCircle - 1].Z);
+                gl.Vertex(this.points[i][this.edgesAmountInEachCircle - 1].X,
+                          this.points[i][this.edgesAmountInEachCircle - 1].Y,
+                          this.points[i][this.edgesAmountInEachCircle - 1].Z);
+                gl.Vertex(this.points[i + 1][this.edgesAmountInEachCircle - 1].X,
+                          this.points[i + 1][this.edgesAmountInEachCircle - 1].Y,
+                          this.points[i + 1][this.edgesAmountInEachCircle - 1].Z);
 
                 gl.End();
             }
         }
 
-        public void Draw(SharpGL.OpenGL gl, Color color)
+        public void DrawArea(OpenGL gl, Color color)
         {
-            /* Установка цвета сферы. */
-            gl.Color(color.R / colorConversionConstant,
-                     color.G / colorConversionConstant,
-                     color.B / colorConversionConstant);
+            gl.Color(color.R, color.G, color.B, color.A);
 
-            gl.Begin(SharpGL.OpenGL.GL_QUAD_STRIP);
+            gl.Begin(OpenGL.GL_QUAD_STRIP);
 
             for (int i = 0; i < this.points.Count - 1; i++)
             {
-                for (int j = 0; j < this.linesAmountInEachCircle; j++)
+                for (int j = 0; j < this.edgesAmountInEachCircle; j++)
                 {
                     gl.Vertex(this.points[i][j].X, this.points[i][j].Y, this.points[i][j].Z);
                     gl.Vertex(this.points[i + 1][j].X, this.points[i + 1][j].Y, this.points[i + 1][j].Z);
@@ -182,79 +181,9 @@ namespace MineCad.Geometry.Primitives.Volumetric
             gl.End();
         }
 
-        public static void DrawOutline(SharpGL.OpenGL gl, in Point center, float radius, uint linesAmountInEachCircle, float width, Color color)
-        {
-            if ((radius > 0.0f) && (linesAmountInEachCircle > 3))
-            {
-                List<Point[]> points = RecalculatePoints(center, radius, linesAmountInEachCircle);
-
-                gl.LineWidth(width);
-
-                gl.Color(color.R / colorConversionConstant,
-                         color.G / colorConversionConstant,
-                         color.B / colorConversionConstant);
-
-                for (int i = 0; i < points.Count - 1; i++)
-                {
-                    for (int j = 0; j < linesAmountInEachCircle - 1; j++)
-                    {
-                        gl.Begin(SharpGL.OpenGL.GL_LINE_STRIP);
-
-                        gl.Vertex(points[i][j + 1].X, points[i][j + 1].Y, points[i][j + 1].Z);
-                        gl.Vertex(points[i][j].X, points[i][j].Y, points[i][j].Z);
-                        gl.Vertex(points[i + 1][j].X, points[i + 1][j].Y, points[i + 1][j].Z);
-
-                        gl.End();
-                    }
-
-                    /* Дополнительный элемент для корректного завершения текущего слоя, соединяющий начало с концом. */
-                    gl.Begin(SharpGL.OpenGL.GL_LINE_STRIP);
-
-                    gl.Vertex(points[i][0].X, points[i][0].Y, points[i][0].Z);
-                    gl.Vertex(points[i][linesAmountInEachCircle - 1].X,
-                              points[i][linesAmountInEachCircle - 1].Y,
-                              points[i][linesAmountInEachCircle - 1].Z);
-                    gl.Vertex(points[i + 1][linesAmountInEachCircle - 1].X,
-                              points[i + 1][linesAmountInEachCircle - 1].Y,
-                              points[i + 1][linesAmountInEachCircle - 1].Z);
-
-                    gl.End();
-                }
-            }
-        }
-
-        public static void Draw(SharpGL.OpenGL gl, in Point center, float radius, uint linesAmountInEachCircle, Color color)
-        {
-            if ((radius > 0.0f) && (linesAmountInEachCircle > 3))
-            {
-                List<Point[]> points = RecalculatePoints(center, radius, linesAmountInEachCircle);
-
-                gl.Color(color.R / colorConversionConstant,
-                     color.G / colorConversionConstant,
-                     color.B / colorConversionConstant);
-
-                gl.Begin(SharpGL.OpenGL.GL_QUAD_STRIP);
-
-                for (int i = 0; i < points.Count - 1; i++)
-                {
-                    for (int j = 0; j < linesAmountInEachCircle; j++)
-                    {
-                        gl.Vertex(points[i][j].X, points[i][j].Y, points[i][j].Z);
-                        gl.Vertex(points[i + 1][j].X, points[i + 1][j].Y, points[i + 1][j].Z);
-                    }
-
-                    /* Для корректного завершения текущего слоя (из-за GL_QUAD_STRIP). */
-                    gl.Vertex(points[i][0].X, points[i][0].Y, points[i][0].Z);
-                    gl.Vertex(points[i + 1][0].X, points[i + 1][0].Y, points[i + 1][0].Z);
-                }
-
-                gl.End();
-            }
-        }
-
         public object Clone()
         {
-            return new Sphere(this.center, this.radius, this.linesAmountInEachCircle);
+            return new Sphere(this.center, this.radius, this.edgesAmountInEachCircle);
         }
     }
 }

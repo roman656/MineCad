@@ -150,6 +150,30 @@ namespace MineCad.Geometry.Primitives.Flat
             gl.End();
         }
 
+        public override bool Equals(Object obj)
+        {
+            if ((obj == null) || !this.GetType().Equals(obj.GetType()))
+            {
+                return false;
+            }
+            else
+            {
+                Point temp = (Point)obj;
+                return ((temp.X == this.x) && (temp.Y == this.y) && (temp.Z == this.z));
+            }
+        }
+
+        public override int GetHashCode()
+        {
+            int hashCode = 373119288;
+
+            hashCode = hashCode * -1521134295 + x.GetHashCode();
+            hashCode = hashCode * -1521134295 + y.GetHashCode();
+            hashCode = hashCode * -1521134295 + z.GetHashCode();
+
+            return hashCode;
+        }
+
         public object Clone()
         {
             return new Point(this.x, this.y, this.z);

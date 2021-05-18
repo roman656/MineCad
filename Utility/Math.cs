@@ -78,16 +78,10 @@ namespace MineCad.Utility
          */
         public static bool CheckVectorsCoplanarity(in Point vectorA, in Point vectorB, in Point vectorC)
         {
-            float determinant = vectorA.X * vectorB.Y * vectorC.Z
-                              + vectorA.Y * vectorB.Z * vectorC.X
-                              + vectorA.Z * vectorB.X * vectorC.Y
-                              - vectorA.Z * vectorB.Y * vectorC.X
-                              - vectorA.X * vectorB.Z * vectorC.Y
-                              - vectorA.Y * vectorB.X * vectorC.Z;
-
-            return (determinant == 0.0f);
+            return (TripleProduct(vectorA, vectorB, vectorC) == 0.0);
         }
 
+        /* Векторное произведение. */
         public static Point CrossProduct(in Point vectorA, in Point vectorB)
         {
             Point result = new Point((vectorA.Y * vectorB.Z - vectorA.Z * vectorB.Y),
@@ -97,9 +91,23 @@ namespace MineCad.Utility
             return result;
         }
 
+        /* Скалярное произведение. */
         public static double DotProduct(in Point vectorA, in Point vectorB)
         {
             return (vectorA.X * vectorB.X + vectorA.Y * vectorB.Y + vectorA.Z * vectorB.Z);
+        }
+
+        /* Смешанное произведение. */
+        public static double TripleProduct(in Point vectorA, in Point vectorB, in Point vectorC)
+        {
+            double determinant = vectorA.X * vectorB.Y * vectorC.Z
+                               + vectorA.Y * vectorB.Z * vectorC.X
+                               + vectorA.Z * vectorB.X * vectorC.Y
+                               - vectorA.Z * vectorB.Y * vectorC.X
+                               - vectorA.X * vectorB.Z * vectorC.Y
+                               - vectorA.Y * vectorB.X * vectorC.Z;
+
+            return determinant;
         }
     }
 }

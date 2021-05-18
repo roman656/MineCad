@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Point = MineCad.Geometry.Primitives.Flat.Point;
 
-namespace MineCad.Geometry.Primitives.Volumetric
+namespace MineCad.Geometry.Primitives.Volumetric.Bullets
 {
     public class HighExplosiveBullet : IBullet
     {
@@ -12,14 +12,14 @@ namespace MineCad.Geometry.Primitives.Volumetric
         private int timeDelay = 60;
         private Point step = new Point(5.0f, 0.0f, 0.0f);
         private float distance = 100.0f;
-        private Sphere bullet = new Sphere(new Point(), 0.5f, 12);
+        private Sphere model = new Sphere(new Point(), 0.5f, 12);
 
         public HighExplosiveBullet() {}
 
         public HighExplosiveBullet(in Point center)
         {
             this.center = (Point)center.Clone();
-            this.bullet.Center = this.center;
+            this.model.Center = this.center;
         }
 
         public Point Step
@@ -43,7 +43,7 @@ namespace MineCad.Geometry.Primitives.Volumetric
                 this.center.Y += step.Y;
                 this.center.Z += step.Z;
 
-                this.bullet.Center = this.center;
+                this.model.Center = this.center;
 
                 Thread.Sleep(this.timeDelay);
             });
@@ -51,7 +51,7 @@ namespace MineCad.Geometry.Primitives.Volumetric
 
         public void Draw(OpenGL gl, Color color)
         {
-            this.bullet.Draw(gl, color);
+            this.model.DrawArea(gl, color);
         }
 
         public object Clone()
