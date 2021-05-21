@@ -6,7 +6,7 @@ using Point = MineCad.Geometry.Primitives.Flat.Point;
 
 namespace MineCad.Geometry.Primitives.Volumetric
 {
-    public class Cone : IVolumetric
+    public class Cone : IVolumetric, IRotatable
     {
         private Point center = new Point();
         private float topRadius = 0.0f;
@@ -261,9 +261,14 @@ namespace MineCad.Geometry.Primitives.Volumetric
             gl.End();
         }
 
+        public void Rotate(float angle, Point vector)
+        {
+            
+        }
+
         public object Clone()
         {
-            throw new System.NotImplementedException();
+            return new Cone(this.center, this.topRadius, this.bottomRadius, this.height, this.edgesAmount);
         }
     }
 }
