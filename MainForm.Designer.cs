@@ -54,6 +54,7 @@ namespace MineCad
             this.button4 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
+            this.открытьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.openGLControl)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -96,6 +97,8 @@ namespace MineCad
             // 
             // файлToolStripMenuItem
             // 
+            this.файлToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.открытьToolStripMenuItem});
             this.файлToolStripMenuItem.Name = "файлToolStripMenuItem";
             this.файлToolStripMenuItem.Size = new System.Drawing.Size(59, 24);
             this.файлToolStripMenuItem.Text = "Файл";
@@ -120,14 +123,14 @@ namespace MineCad
             // изометрияToolStripMenuItem
             // 
             this.изометрияToolStripMenuItem.Name = "изометрияToolStripMenuItem";
-            this.изометрияToolStripMenuItem.Size = new System.Drawing.Size(221, 26);
+            this.изометрияToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.изометрияToolStripMenuItem.Text = "Изометрия";
             this.изометрияToolStripMenuItem.Click += new System.EventHandler(this.IisometryToolStripMenuItem_Click);
             // 
             // главныеОсиToolStripMenuItem
             // 
             this.главныеОсиToolStripMenuItem.Name = "главныеОсиToolStripMenuItem";
-            this.главныеОсиToolStripMenuItem.Size = new System.Drawing.Size(221, 26);
+            this.главныеОсиToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.главныеОсиToolStripMenuItem.Text = "Главные оси";
             this.главныеОсиToolStripMenuItem.Click += new System.EventHandler(this.MainAxesToolStripMenuItem_Click);
             // 
@@ -138,7 +141,7 @@ namespace MineCad
             this.плоскостьYZToolStripMenuItem,
             this.плоскостьXZToolStripMenuItem});
             this.главныеСеткиToolStripMenuItem.Name = "главныеСеткиToolStripMenuItem";
-            this.главныеСеткиToolStripMenuItem.Size = new System.Drawing.Size(221, 26);
+            this.главныеСеткиToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.главныеСеткиToolStripMenuItem.Text = "Главные сетки";
             // 
             // плоскостьXYToolStripMenuItem
@@ -165,7 +168,7 @@ namespace MineCad
             // контурыОбъектовToolStripMenuItem
             // 
             this.контурыОбъектовToolStripMenuItem.Name = "контурыОбъектовToolStripMenuItem";
-            this.контурыОбъектовToolStripMenuItem.Size = new System.Drawing.Size(221, 26);
+            this.контурыОбъектовToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.контурыОбъектовToolStripMenuItem.Text = "Контуры объектов";
             this.контурыОбъектовToolStripMenuItem.Click += new System.EventHandler(this.ObjectsContoursToolStripMenuItem_Click);
             // 
@@ -188,7 +191,7 @@ namespace MineCad
             this.конусToolStripMenuItem,
             this.сфераToolStripMenuItem});
             this.примитивыToolStripMenuItem.Name = "примитивыToolStripMenuItem";
-            this.примитивыToolStripMenuItem.Size = new System.Drawing.Size(175, 26);
+            this.примитивыToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.примитивыToolStripMenuItem.Text = "Примитивы";
             // 
             // плоскостьToolStripMenuItem
@@ -273,6 +276,13 @@ namespace MineCad
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.Fire_Click);
             // 
+            // открытьToolStripMenuItem
+            // 
+            this.открытьToolStripMenuItem.Name = "открытьToolStripMenuItem";
+            this.открытьToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.открытьToolStripMenuItem.Text = "Открыть";
+            this.открытьToolStripMenuItem.Click += new System.EventHandler(this.STLOpenToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -322,6 +332,7 @@ namespace MineCad
         private System.Windows.Forms.ToolStripMenuItem конусToolStripMenuItem;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.ToolStripMenuItem открытьToolStripMenuItem;
     }
 }
 
