@@ -24,6 +24,8 @@ namespace MineCad
         /* Режимы работы. */
         private bool isCreatingMode = false;
         private bool isEditingMode = false;    // TODO.
+        private bool isCreatingCube = false;
+        private bool isCreatingLine = false;
 
         /* TODO: Режимы преобразования объекта. */
         private bool isRotatingMode = false;
@@ -64,6 +66,12 @@ namespace MineCad
         private uint majorGridSizeInCells = 6;
         private float majorGridCellSize = 10.0f;
         private float majorGridLineWidth = 2.0f;
+
+        /* Для линии */
+        private float lineX = 0.0f;
+        private float lineY = 0.0f;
+        private float lineEndX = 0.0f;
+        private float lineEndY = 0.0f;
 
         /* В тестовом режиме: проверка создания куба. */
         private float cubeSize = 10.0f;
@@ -169,8 +177,17 @@ namespace MineCad
 
             if (this.isCreatingMode)
             {
-                GLDrawHelper.DrawCube3D(gl, this.cubeX, this.cubeY, 0.0f,
-                        this.cubeSize, 3.0f, Color.OrangeRed);
+                if (this.isCreatingCube)
+                {
+                    GLDrawHelper.DrawCube3D(gl, this.cubeX, this.cubeY, 0.0f,
+                                            this.cubeSize, 3.0f, Color.OrangeRed);
+                }
+
+                if (this.isCreatingLine)
+                {
+                    GLDrawHelper.DrawLine3D(gl, this.lineX, this.lineY, 0.0f, this.lineEndX, this.lineEndY, 0.0f, 3.0f, Color.Yellow);
+                }
+                
             }
 
             if (this.isCubeCreated)
@@ -299,7 +316,17 @@ namespace MineCad
                 else
                 {
                     this.isCreatingMode = false;
-                    this.isCubeCreated = true;
+                    if (isCreatingLine)
+                    {
+                        this.isCreatingLine = false;
+                    }
+                    
+                    if (isCreatingCube)
+                    {
+                        this.isCubeCreated = true;
+                        this.isCreatingCube = false;
+                    }
+                    
                 }
             }
             else if (e.Button == MouseButtons.Right) 
@@ -334,8 +361,18 @@ namespace MineCad
             }
             else if (this.isCreatingMode)
             {
-                this.cubeSize += this.movingSpeed * deltaX;
-                this.cubeSize += this.movingSpeed * deltaY;
+                if (this.isCreatingCube)
+                {
+                    this.cubeSize += this.movingSpeed * deltaX;
+                    this.cubeSize += this.movingSpeed * deltaY;
+                }
+
+                if (this.isCreatingLine)
+                {
+                    this.lineEndX = this.pressedMouseX;
+                    this.lineEndY = this.pressedMouseY;
+                }
+                
             }
 
             this.pressedMouseX = e.X;
@@ -434,6 +471,7 @@ namespace MineCad
         private void button1_Click(object sender, EventArgs e)
         {
             this.isCreatingMode = true;
+            this.isCreatingCube = true;
             this.isCubeCreated = false;
             this.pressedMouseX = 0;
             this.pressedMouseY = 0;
@@ -494,6 +532,104 @@ namespace MineCad
                     }
                 }
             }
+        }
+
+        private void AllGridOnOff()
+        {
+            if (!this.isXYGridVisible || !this.isXZGridVisible || !this.isYZGridVisible)
+            {
+                this.isXYGridVisible = true;
+                this.isXZGridVisible = true;
+                this.isYZGridVisible = true;
+            }
+            else
+            {
+                this.isXYGridVisible = false;
+                this.isXZGridVisible = false;
+                this.isYZGridVisible = false;
+            }
+        }
+        private void AllGridToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AllGridOnOff();
+        }
+
+        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void Plane_Click(object sender, EventArgs e)
+        {
+            this.isPlaneVisible = !this.isPlaneVisible;
+        }
+
+        private void Cube_Click(object sender, EventArgs e)
+        {
+            this.isCubeVisible = !this.isCubeVisible;
+        }
+
+        private void Parallelipiped_Click(object sender, EventArgs e)
+        {
+            this.isParallelepipedVisible = !this.isParallelepipedVisible;
+        }
+
+        private void Pyramid_Click(object sender, EventArgs e)
+        {
+            this.isPyramidVisible = !this.isPyramidVisible;
+        }
+
+        private void Cylinder_Click(object sender, EventArgs e)
+        {
+            this.isCylinderVisible = !this.isCylinderVisible;
+        }
+
+        private void Cone_Click(object sender, EventArgs e)
+        {
+            this.isConeVisible = !this.isConeVisible;
+        }
+
+        private void Sphere_Click(object sender, EventArgs e)
+        {
+            this.isSphereVisible = !this.isSphereVisible;
+        }
+
+        private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void GridXY_Click(object sender, EventArgs e)
+        {
+            this.isXYGridVisible = !this.isXYGridVisible;
+        }
+
+        private void GridYZ_Click(object sender, EventArgs e)
+        {
+            this.isYZGridVisible = !this.isYZGridVisible;
+        }
+
+        private void GridXZ_Click(object sender, EventArgs e)
+        {
+            this.isXZGridVisible = !this.isXZGridVisible;
+        }
+
+        private void GridAll_Click(object sender, EventArgs e)
+        {
+            AllGridOnOff();
+        }
+
+        private void MainAxis_Click(object sender, EventArgs e)
+        {
+            this.isCoordinateSystemVisible = !this.isCoordinateSystemVisible;
+        }
+
+        private void Line_Click_1(object sender, EventArgs e)
+        {
+            this.isCreatingMode = true;
+            this.isCreatingLine = true;
+            this.pressedMouseX = 0;
+            this.pressedMouseY = 0;
         }
     }
 }
