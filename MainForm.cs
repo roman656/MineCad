@@ -95,7 +95,7 @@ namespace MineCad
         private bool isSphereVisible = false;
 
         private Tank[] tankPlatoon = { new Tank(new Point(0, 0, 0)),
-                                       new Tank(new Point(0, 0, 20)), 
+                                       new Tank(new Point(0, 0, 20)),
                                        new Tank(new Point(0, 0, -20)) };
 
         private HighExplosiveBullet[] bullets = { new HighExplosiveBullet(), new HighExplosiveBullet(), new HighExplosiveBullet() };
@@ -246,7 +246,7 @@ namespace MineCad
                 tank.Run();
             }
 
-            DrawerSTL.DrawSTL(gl, this._stlData, 0.1f, -90.0f, new Point(1,0,0), Color.Green, Color.Yellow);
+            DrawerSTL.DrawSTL(gl, this._stlData, 0.1f, -90.0f, new Point(1, 0, 0), Color.Green, Color.Yellow);
 
             gl.Flush();
 
@@ -320,17 +320,17 @@ namespace MineCad
                     {
                         this.isCreatingLine = false;
                     }
-                    
+
                     if (isCreatingCube)
                     {
                         this.isCubeCreated = true;
                         this.isCreatingCube = false;
-                    }   
+                    }
                 }
             }
-            else if (e.Button == MouseButtons.Right) 
-            { 
-                this.isSceneMovingMode = true; 
+            else if (e.Button == MouseButtons.Right)
+            {
+                this.isSceneMovingMode = true;
             }
 
             this.pressedMouseX = e.X;
@@ -370,7 +370,7 @@ namespace MineCad
                 {
                     this.lineEndX = this.pressedMouseX;
                     this.lineEndY = this.pressedMouseY;
-                }       
+                }
             }
 
             this.pressedMouseX = e.X;
