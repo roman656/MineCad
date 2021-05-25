@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.ExceptionServices;
 using System.Windows.Forms;
 
 namespace MineCad
@@ -7,7 +6,6 @@ namespace MineCad
     static class Program
     {
         [STAThread]
-        [HandleProcessCorruptedStateExceptions]
         static void Main()
         {
             Application.EnableVisualStyles();
