@@ -625,7 +625,7 @@ namespace MineCad
             this.pressedMouseY = 0;
         }
 
-        private void fPSToolStripMenuItem_Click(object sender, EventArgs e)
+        private void FPSToolStripMenuItem_Click(object sender, EventArgs e)
         {
             openGLControl.DrawFPS = !openGLControl.DrawFPS;
             fPSToolStripMenuItem.Checked = !fPSToolStripMenuItem.Checked;
