@@ -630,15 +630,5 @@ namespace MineCad
             openGLControl.DrawFPS = !openGLControl.DrawFPS;
             fPSToolStripMenuItem.Checked = !fPSToolStripMenuItem.Checked;
         }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
-        {
-
-        }
     }
 }
