@@ -246,7 +246,7 @@ namespace MineCad
                 tank.Run();
             }
 
-            DrawerSTL.DrawSTL(gl, this._stlData, 0.1f, -90.0f, new Point(1, 0, 0), Color.Green, Color.Yellow);
+            DrawerSTL.DrawSTL(gl, this._stlData, (int)numericUpDown1.Value, -90.0f, new Point(1, 0, 0), Color.Green, Color.Yellow);
 
             gl.Flush();
 
@@ -623,6 +623,12 @@ namespace MineCad
             this.isCreatingLine = true;
             this.pressedMouseX = 0;
             this.pressedMouseY = 0;
+        }
+
+        private void fPSToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            openGLControl.DrawFPS = !openGLControl.DrawFPS;
+            fPSToolStripMenuItem.Checked = !fPSToolStripMenuItem.Checked;
         }
     }
 }
