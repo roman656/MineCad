@@ -5,8 +5,10 @@ namespace MineCad.Utility
 {
     public class DrawerSTL
     {
-        public static void DrawSTL(SharpGL.OpenGL gl, List<float[,]> stlData, float scale, float angle, Point vector, System.Drawing.Color polygonColor, System.Drawing.Color lineColor)
+        public static void DrawSTL(SharpGL.OpenGL gl, List<float[,]> stlData, int scale, float angle, Point vector, System.Drawing.Color polygonColor, System.Drawing.Color lineColor)
         {
+            float scaleCoefficient = (float)scale / 100;
+
             if (stlData.Count <= 0) { return; }
 
             gl.Rotate(angle, vector.X, vector.Y, vector.Z);
@@ -19,9 +21,9 @@ namespace MineCad.Utility
                 gl.Color(pR, pG, pB);
 
                 gl.Begin(SharpGL.Enumerations.BeginMode.Polygon);
-                gl.Vertex(stlData[i][0, 0] * scale, stlData[i][0, 1] * scale, stlData[i][0, 2] * scale);
-                gl.Vertex(stlData[i][1, 0] * scale, stlData[i][1, 1] * scale, stlData[i][1, 2] * scale);
-                gl.Vertex(stlData[i][2, 0] * scale, stlData[i][2, 1] * scale, stlData[i][2, 2] * scale);
+                gl.Vertex(stlData[i][0, 0] * scaleCoefficient, stlData[i][0, 1] * scaleCoefficient, stlData[i][0, 2] * scaleCoefficient);
+                gl.Vertex(stlData[i][1, 0] * scaleCoefficient, stlData[i][1, 1] * scaleCoefficient, stlData[i][1, 2] * scaleCoefficient);
+                gl.Vertex(stlData[i][2, 0] * scaleCoefficient, stlData[i][2, 1] * scaleCoefficient, stlData[i][2, 2] * scaleCoefficient);
                 gl.End();
             }
 
@@ -33,9 +35,9 @@ namespace MineCad.Utility
                 gl.Color(lR, lG, lB);
 
                 gl.Begin(SharpGL.OpenGL.GL_LINE_LOOP);
-                gl.Vertex(stlData[i][0, 0] * scale, stlData[i][0, 1] * scale, stlData[i][0, 2] * scale);
-                gl.Vertex(stlData[i][1, 0] * scale, stlData[i][1, 1] * scale, stlData[i][1, 2] * scale);
-                gl.Vertex(stlData[i][2, 0] * scale, stlData[i][2, 1] * scale, stlData[i][2, 2] * scale);
+                gl.Vertex(stlData[i][0, 0] * scaleCoefficient, stlData[i][0, 1] * scaleCoefficient, stlData[i][0, 2] * scaleCoefficient);
+                gl.Vertex(stlData[i][1, 0] * scaleCoefficient, stlData[i][1, 1] * scaleCoefficient, stlData[i][1, 2] * scaleCoefficient);
+                gl.Vertex(stlData[i][2, 0] * scaleCoefficient, stlData[i][2, 1] * scaleCoefficient, stlData[i][2, 2] * scaleCoefficient);
                 gl.End();
             }
 
