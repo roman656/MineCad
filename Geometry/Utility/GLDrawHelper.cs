@@ -6,10 +6,6 @@ namespace MineCad
 {
     public static class GLDrawHelper
     {
-        /* 
-         * Константа, необходимая для конвертации RGB цвета [0; 255]
-         * в RGB цвет [0.0f; 1.0f].
-         */
         private const float colorConversionConstant = byte.MaxValue;
 
         public static void DrawLine3D(SharpGL.OpenGL gl, float beginX, float beginY, float beginZ,
@@ -30,81 +26,6 @@ namespace MineCad
             gl.Vertex(endX, endY, endZ);
 
             gl.End();
-        }
-
-        public static void DrawAxes3D(SharpGL.OpenGL gl, float beginX,    float beginY,    float beginZ,
-                                                         float minXValue, float minYValue, float minZValue,
-                                                         float maxXValue, float maxYValue, float maxZValue,
-                                                         float width,
-                                                         Color axisXColor, Color axisYColor, Color axisZColor)
-        {
-            /* Ось OX. */
-            DrawLine3D(gl, beginX + minXValue, beginY, beginZ,
-                           beginX + maxXValue, beginY, beginZ,
-                           width, axisXColor);
-
-            /* Ось OY. */
-            DrawLine3D(gl, beginX, beginY + minYValue, beginZ,
-                           beginX, beginY + maxYValue, beginZ,
-                           width, axisYColor);
-
-            /* Ось OZ. */
-            DrawLine3D(gl, beginX, beginY, beginZ + minZValue,
-                           beginX, beginY, beginZ + maxZValue,
-                           width, axisZColor);
-        }
-
-        public static void DrawGrid2D(SharpGL.OpenGL gl, int plane, float beginX, float beginY, float beginZ,
-                float minValue, float maxValue, float cellSize, float width, Color color)
-        {
-
-            /* Определение количества линий по одной оси. */
-            int linesAmount = (int) System.Math.Ceiling((maxValue - minValue) / cellSize);
-            linesAmount++;
-
-            /* Отрисовка сетки. */
-            for (var i = linesAmount; i > 0; i--)
-            {
-                if (plane == 0)
-                {
-                    /* В плоскости XY. */
-                    DrawLine3D(gl,
-                            beginX + minValue, beginY + minValue + (cellSize * (i - 1)), beginZ,
-                            beginX + maxValue, beginY + minValue + (cellSize * (i - 1)), beginZ,
-                            width, color);
-
-                    DrawLine3D(gl,
-                            beginX + minValue + (cellSize * (i - 1)), beginY + minValue, beginZ,
-                            beginX + minValue + (cellSize * (i - 1)), beginY + maxValue, beginZ,
-                            width, color);
-                }
-                else if (plane == 1)
-                {
-                    /* В плоскости YZ. */
-                    DrawLine3D(gl,
-                            beginX, beginY + minValue + (cellSize * (i - 1)), beginZ + minValue,
-                            beginX, beginY + minValue + (cellSize * (i - 1)), beginZ + maxValue,
-                            width, color);
-
-                    DrawLine3D(gl,
-                            beginX, beginY + minValue, beginZ + minValue + (cellSize * (i - 1)),
-                            beginX, beginY + maxValue, beginZ + minValue + (cellSize * (i - 1)),
-                            width, color);
-                }
-                else
-                {
-                    /* В плоскости XZ. */
-                    DrawLine3D(gl,
-                            beginX + minValue, beginY, beginZ + minValue + (cellSize * (i - 1)),
-                            beginX + maxValue, beginY, beginZ + minValue + (cellSize * (i - 1)),
-                            width, color);
-
-                    DrawLine3D(gl,
-                            beginX + minValue + (cellSize * (i - 1)), beginY, beginZ + minValue,
-                            beginX + minValue + (cellSize * (i - 1)), beginY, beginZ + maxValue,
-                            width, color);
-                }
-            }
         }
 
         // TODO: реализовать функционал гизмо.
@@ -214,47 +135,6 @@ namespace MineCad
                     size, linesWidth, color);
         }
 
-        //TODO: implemet  this.
-        public static void DrawSolid(SharpGL.OpenGL gl) {}
-
-        public static void DrawPlane2D(SharpGL.OpenGL gl, int plane,
-                float beginX, float beginY, float beginZ, float size, Color color)
-        {
-            /* Установка цвета полигона (плоскости). */
-            gl.Color(color.R / colorConversionConstant,
-                     color.G / colorConversionConstant,
-                     color.B / colorConversionConstant);
-
-            gl.Begin(SharpGL.OpenGL.GL_POLYGON);
-
-            if (plane == 0)
-            {
-                /* В плоскости XY. */
-                gl.Vertex(beginX + (size / 2.0f), beginY + (size / 2.0f), beginZ);
-                gl.Vertex(beginX + (size / 2.0f), beginY - (size / 2.0f), beginZ);
-                gl.Vertex(beginX - (size / 2.0f), beginY - (size / 2.0f), beginZ);
-                gl.Vertex(beginX - (size / 2.0f), beginY + (size / 2.0f), beginZ);
-            }
-            else if (plane == 1)
-            {
-                /* В плоскости YZ. */
-                gl.Vertex(beginX, beginY + (size / 2.0f), beginZ + (size / 2.0f));
-                gl.Vertex(beginX, beginY - (size / 2.0f), beginZ + (size / 2.0f));
-                gl.Vertex(beginX, beginY - (size / 2.0f), beginZ - (size / 2.0f));
-                gl.Vertex(beginX, beginY + (size / 2.0f), beginZ - (size / 2.0f));
-            }
-            else
-            {
-                /* В плоскости XZ. */
-                gl.Vertex(beginX + (size / 2.0f), beginY, beginZ + (size / 2.0f));
-                gl.Vertex(beginX - (size / 2.0f), beginY, beginZ + (size / 2.0f));
-                gl.Vertex(beginX - (size / 2.0f), beginY, beginZ - (size / 2.0f));
-                gl.Vertex(beginX + (size / 2.0f), beginY, beginZ - (size / 2.0f));
-            }
-
-            gl.End();
-        }
-
         public static void DrawFilledBox3D(SharpGL.OpenGL gl,
                 float beginX, float beginY, float beginZ,
                 float xSize,  float ySize, float zSize, Color color)
@@ -327,76 +207,7 @@ namespace MineCad
                 float beginX, float beginY, float beginZ, float size, Color color)
         {
             DrawFilledBox3D(gl, beginX, beginY, beginZ, size, size, size, color);
-        }
-
-        public static void DrawPyramid(SharpGL.OpenGL gl, float width, float height, float depth, Color polygonColor, Color lineColor)
-        {
-            float pR = polygonColor.R / 255.0f;
-            float pG = polygonColor.G / 255.0f;
-            float pB = polygonColor.B / 255.0f;
-            gl.Color(pR, pG, pB);
-
-            gl.Begin(SharpGL.OpenGL.GL_TRIANGLES);
-            gl.Vertex(0.0f, height, 0.0f);
-            gl.Vertex(width / 2, 0f, depth / 2);
-            gl.Vertex(-width / 2, 0f, depth / 2);
-            gl.End();
-
-            gl.Begin(SharpGL.OpenGL.GL_TRIANGLES);
-            gl.Vertex(0.0f, height, 0.0f);
-            gl.Vertex(width / 2, 0f, -depth / 2);
-            gl.Vertex(width / 2, 0f, depth / 2);
-            gl.End();
-
-            gl.Begin(SharpGL.OpenGL.GL_TRIANGLES);
-            gl.Vertex(0.0f, height, 0.0f);
-            gl.Vertex(-width / 2, 0f, -depth / 2);
-            gl.Vertex(width / 2, 0f, -depth / 2);
-            gl.End();
-
-            gl.Begin(SharpGL.OpenGL.GL_TRIANGLES);
-            gl.Vertex(0.0f, height, 0.0f);
-            gl.Vertex(-width / 2, 0f, depth / 2);
-            gl.Vertex(-width / 2, 0f, -depth / 2);
-            gl.End();
-
-
-            gl.Begin(SharpGL.OpenGL.GL_QUADS);
-            gl.Vertex(-width / 2, 0.0f, depth / 2);
-            gl.Vertex(width / 2, 0.0f, depth / 2);
-            gl.Vertex(width / 2, 0.0f, -depth / 2);
-            gl.Vertex(-width / 2, 0.0f, -depth / 2);
-            gl.End();
-
-            float lR = lineColor.R / 255.0f;
-            float lG = lineColor.G / 255.0f;
-            float lB = lineColor.B / 255.0f;
-            gl.Color(lR, lG, lB);
-
-            gl.Begin(SharpGL.OpenGL.GL_LINE_LOOP);
-            gl.Vertex(0.0f, height, 0.0f);
-            gl.Vertex(width / 2, 0f, depth / 2);
-            gl.Vertex(-width / 2, 0f, depth / 2);
-            gl.End();
-
-            gl.Begin(SharpGL.OpenGL.GL_LINE_LOOP);
-            gl.Vertex(0.0f, height, 0.0f);
-            gl.Vertex(width / 2, 0f, -depth / 2);
-            gl.Vertex(width / 2, 0f, depth / 2);
-            gl.End();
-
-            gl.Begin(SharpGL.OpenGL.GL_LINE_LOOP);
-            gl.Vertex(0.0f, height, 0.0f);
-            gl.Vertex(-width / 2, 0f, -depth / 2);
-            gl.Vertex(width / 2, 0f, -depth / 2);
-            gl.End();
-
-            gl.Begin(SharpGL.OpenGL.GL_LINE_LOOP);
-            gl.Vertex(0.0f, height, 0.0f);
-            gl.Vertex(-width / 2, 0f, depth / 2);
-            gl.Vertex(-width / 2, 0f, -depth / 2);
-            gl.End();
-        }
+        }       
 
         public static void DrawCylinder(SharpGL.OpenGL gl, float height, double radiusBottom, double radiusTop, int polCount, Color polColour, Color lineColour)
         {
@@ -491,70 +302,6 @@ namespace MineCad
             gl.Vertex(coordsTop[0].Item1, height, coordsTop[0].Item2);
             gl.Vertex(0f, height, 0f);
             gl.End();
-        }
-
-        public static void DrawSphere(SharpGL.OpenGL gl, float diameter, Color polygonColor, Color lineColor)
-        {
-            int sph_ng = 24; float sph_radius = diameter / 2;
-
-            List<double[,]> slices = new List<double[,]>();
-
-            double dPhi = 2 * Math.PI / sph_ng;
-            double dPsi = 2 * Math.PI / sph_ng;
-            for (int i = 0; i <= sph_ng; i++)
-            {
-                double[,] slice = new double[sph_ng + 1, 3];
-
-                double Psi = -Math.PI + dPsi * i;
-
-                for (int j = 0; j <= sph_ng; ++j)
-                {
-                    double Phi = dPhi * j;
-
-                    double x = (sph_radius * Math.Cos(Phi));
-                    double y = (sph_radius * Math.Sin(Phi)) * Math.Sin(Psi);
-                    double z = (sph_radius * Math.Sin(Phi)) * Math.Cos(Psi);
-                    slice[j, 0] = x; slice[j, 1] = y; slice[j, 2] = z;
-                }
-                slices.Add(slice);
-            }
-
-            float pR = polygonColor.R / 255.0f;
-            float pG = polygonColor.G / 255.0f;
-            float pB = polygonColor.B / 255.0f;
-            gl.Color(pR, pG, pB);
-
-            for (int i = 0; i < slices.Count - 1; i++)
-            {
-                for (int j = 0; j < sph_ng; ++j)
-                {
-                    gl.Begin(SharpGL.OpenGL.GL_QUADS);
-                    gl.Vertex(slices[i][j, 0], slices[i][j, 1], slices[i][j, 2]);
-                    gl.Vertex(slices[i + 1][j, 0], slices[i + 1][j, 1], slices[i + 1][j, 2]);
-                    gl.Vertex(slices[i + 1][j + 1, 0], slices[i + 1][j + 1, 1], slices[i + 1][j + 1, 2]);
-                    gl.Vertex(slices[i][j + 1, 0], slices[i][j + 1, 1], slices[i][j + 1, 2]);
-                    gl.End();
-                }
-            }
-
-
-            float lR = lineColor.R / 255.0f;
-            float lG = lineColor.G / 255.0f;
-            float lB = lineColor.B / 255.0f;
-            gl.Color(lR, lG, lB);
-
-            for (int i = 0; i < slices.Count - 1; i++)
-            {
-                for (int j = 0; j < sph_ng; ++j)
-                {
-                    gl.Begin(SharpGL.OpenGL.GL_LINE_LOOP);
-                    gl.Vertex(slices[i][j, 0], slices[i][j, 1], slices[i][j, 2]);
-                    gl.Vertex(slices[i + 1][j, 0], slices[i + 1][j, 1], slices[i + 1][j, 2]);
-                    gl.Vertex(slices[i + 1][j + 1, 0], slices[i + 1][j + 1, 1], slices[i + 1][j + 1, 2]);
-                    gl.Vertex(slices[i][j + 1, 0], slices[i][j + 1, 1], slices[i][j + 1, 2]);
-                    gl.End();
-                }
-            }
-        }
+        }        
     }
 }

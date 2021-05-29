@@ -7,6 +7,8 @@ using MineCad.Geometry.Primitives.Volumetric.Tanks;
 using SharpGL;
 using Point = MineCad.Geometry.Primitives.Flat.Point;
 using MineCad.Utility;
+using MineCad.Geometry.Primitives.Volumetric;
+using MineCad.Geometry.Primitives.Flat;
 
 namespace MineCad
 {
@@ -94,6 +96,8 @@ namespace MineCad
         private bool isConeVisible = false;
         private bool isSphereVisible = false;
 
+        private bool isTankVisible = false;
+
         private Tank[] tankPlatoon = { new Tank(new Point(0, 0, 0)),
                                        new Tank(new Point(0, 0, 20)),
                                        new Tank(new Point(0, 0, -20)) };
@@ -103,6 +107,14 @@ namespace MineCad
 
         /* Список для хранения stl данных. */
         private List<float[,]> _stlData = new List<float[,]>();
+
+        private IMineCadObject[] primitives = { new Box(new Point(0, 0, 0), 5, 4, 3),
+                                                new Box(new Point(0, 0, -5), 4, 4, 4),
+                                                new Cone(new Point(0, 0, 15), 0, 1, 4, 16),
+                                                new Cone(new Point(0, 0, 7), 1, 1, 3, 16),
+                                                new Cone(new Point(0, 0, -10), 0, 1, 2, 4),
+                                                new Sphere(new Point(0, 0, 11), 1, 18),
+                                                new Plane(new Point(0, 5, 0), new Point(-10, 7, 3), new Point(-8, 6, -2))};
 
         public MainForm()
         {
@@ -197,53 +209,57 @@ namespace MineCad
 
             DrawTestSolids(gl);
 
-            foreach (var tank in this.tankPlatoon)
+            if (this.isTankVisible)
             {
-                tank.Draw(gl, Color.Green, Color.Green, Color.Green);
-            }
 
-            if (wasFire)
-            {
-                foreach (var bullet in this.bullets)
+                foreach (var tank in this.tankPlatoon)
                 {
-                    bullet.Draw(gl, Color.Red);
-                    bullet.Run();
+                    tank.Draw(gl, Color.Green, Color.Green, Color.Green);
                 }
-            }
 
-            foreach (var tank in this.tankPlatoon)
-            {
-                if ((this.coordinateSystemSize < tank.Center.X) && (tank.RotationValue.Y > -180.0f))
+                if (wasFire)
                 {
-                    Point newRotationValue = tank.RotationValue;
-
-                    tank.Step = new Point();
-
-                    newRotationValue.Y -= 0.5f;
-                    tank.RotationValue = newRotationValue;
-                }
-                else if ((-this.coordinateSystemSize > tank.Center.X) && (tank.RotationValue.Y < 0.0f))
-                {
-                    Point newRotationValue = tank.RotationValue;
-
-                    tank.Step = new Point();
-
-                    newRotationValue.Y += 0.5f;
-                    tank.RotationValue = newRotationValue;
-                }
-                else
-                {
-                    if (tank.RotationValue.Y <= -180.0f)
+                    foreach (var bullet in this.bullets)
                     {
-                        tank.Step = new Point(-0.15f, 0.0f, 0.0f);
-                    }
-                    else if (tank.RotationValue.Y >= 0.0f)
-                    {
-                        tank.Step = new Point(0.15f, 0.0f, 0.0f);
+                        bullet.Draw(gl, Color.Red);
+                        bullet.Run();
                     }
                 }
 
-                tank.Run();
+                foreach (var tank in this.tankPlatoon)
+                {
+                    if ((this.coordinateSystemSize < tank.Center.X) && (tank.RotationValue.Y > -180.0f))
+                    {
+                        Point newRotationValue = tank.RotationValue;
+
+                        tank.Step = new Point();
+
+                        newRotationValue.Y -= 0.5f;
+                        tank.RotationValue = newRotationValue;
+                    }
+                    else if ((-this.coordinateSystemSize > tank.Center.X) && (tank.RotationValue.Y < 0.0f))
+                    {
+                        Point newRotationValue = tank.RotationValue;
+
+                        tank.Step = new Point();
+
+                        newRotationValue.Y += 0.5f;
+                        tank.RotationValue = newRotationValue;
+                    }
+                    else
+                    {
+                        if (tank.RotationValue.Y <= -180.0f)
+                        {
+                            tank.Step = new Point(-0.15f, 0.0f, 0.0f);
+                        }
+                        else if (tank.RotationValue.Y >= 0.0f)
+                        {
+                            tank.Step = new Point(0.15f, 0.0f, 0.0f);
+                        }
+                    }
+
+                    tank.Run();
+                }
             }
 
             DrawerSTL.DrawSTL(gl, this._stlData, (int)numericUpDown1.Value, -90.0f, new Point(1, 0, 0), Color.Green, Color.Yellow);
@@ -270,37 +286,44 @@ namespace MineCad
         {
             if (this.isPlaneVisible)
             {
-                GLDrawHelper.DrawPlane2D(gl, 2, 0.0f, 0.0f, -10.0f, 5.0f, Color.Coral);
+                ((Plane)this.primitives[6]).DrawArea(gl, Color.Coral);
+                ((Plane)this.primitives[6]).Draw(gl, 3, Color.Red);
             }
 
             if (this.isCubeVisible)
             {
-                GLDrawHelper.DrawFilledCube3D(gl, 0.0f, 0.0f, -20.0f, 5.0f, Color.DarkGreen);
+                ((Box)this.primitives[1]).DrawArea(gl, Color.DarkGreen);
+                ((Box)this.primitives[1]).Draw(gl, 3, Color.Red);
             }
 
             if (this.isParallelepipedVisible)
             {
-                GLDrawHelper.DrawFilledBox3D(gl, 0.0f, 0.0f, -30.0f, 4.0f, 3.0f, 5.0f, Color.Aqua);
+                ((Box)this.primitives[0]).DrawArea(gl, Color.Aqua);
+                ((Box)this.primitives[0]).Draw(gl, 3, Color.Red);
             }
 
             if (this.isPyramidVisible)
             {
-                GLDrawHelper.DrawPyramid(gl, 5.0f, 6.0f, 3.0f, Color.CadetBlue, Color.Gold);
+                ((Cone)this.primitives[4]).DrawArea(gl, Color.Gold);
+                ((Cone)this.primitives[4]).Draw(gl, 3, Color.Red);
             }
 
             if (this.isCylinderVisible)
             {
-                GLDrawHelper.DrawCylinder(gl, 10.0f, 2.5f, 2.5f, 24, Color.LightSkyBlue, Color.Chocolate);
+                ((Cone)this.primitives[3]).DrawArea(gl, Color.Chocolate);
+                ((Cone)this.primitives[3]).Draw(gl, 3, Color.Red);
             }
 
             if (this.isConeVisible)
             {
-                GLDrawHelper.DrawCylinder(gl, 10.0f, 2.5f, 0.0f, 24, Color.LightSkyBlue, Color.Chocolate);
+                ((Cone)this.primitives[2]).DrawArea(gl, Color.Lime);
+                ((Cone)this.primitives[2]).Draw(gl, 3, Color.Red);
             }
 
             if (this.isSphereVisible)
             {
-                GLDrawHelper.DrawSphere(gl, 4.0f, Color.Red, Color.SeaShell);
+                ((Sphere)this.primitives[5]).DrawArea(gl, Color.SeaShell);
+                ((Sphere)this.primitives[5]).Draw(gl, 3, Color.Red);
             }
         }
 
@@ -629,6 +652,11 @@ namespace MineCad
         {
             openGLControl.DrawFPS = !openGLControl.DrawFPS;
             fPSToolStripMenuItem.Checked = !fPSToolStripMenuItem.Checked;
+        }
+
+        private void TanksVisibilityButton_Click(object sender, EventArgs e)
+        {
+            this.isTankVisible = !this.isTankVisible;
         }
     }
 }
