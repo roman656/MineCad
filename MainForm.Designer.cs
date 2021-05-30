@@ -67,6 +67,7 @@ namespace MineCad
             this.Сфера = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.button3 = new System.Windows.Forms.Button();
             this.Line = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
@@ -78,7 +79,6 @@ namespace MineCad
             this.MainAxis = new System.Windows.Forms.Button();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
-            this.button3 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.openGLControl)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -252,55 +252,55 @@ namespace MineCad
             this.конусToolStripMenuItem,
             this.сфераToolStripMenuItem});
             this.примитивыToolStripMenuItem.Name = "примитивыToolStripMenuItem";
-            this.примитивыToolStripMenuItem.Size = new System.Drawing.Size(175, 26);
+            this.примитивыToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.примитивыToolStripMenuItem.Text = "Примитивы";
             // 
             // плоскостьToolStripMenuItem
             // 
             this.плоскостьToolStripMenuItem.Name = "плоскостьToolStripMenuItem";
-            this.плоскостьToolStripMenuItem.Size = new System.Drawing.Size(211, 26);
+            this.плоскостьToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.плоскостьToolStripMenuItem.Text = "Плоскость";
             this.плоскостьToolStripMenuItem.Click += new System.EventHandler(this.PlaneToolStripMenuItem_Click);
             // 
             // кубToolStripMenuItem
             // 
             this.кубToolStripMenuItem.Name = "кубToolStripMenuItem";
-            this.кубToolStripMenuItem.Size = new System.Drawing.Size(211, 26);
+            this.кубToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.кубToolStripMenuItem.Text = "Куб";
             this.кубToolStripMenuItem.Click += new System.EventHandler(this.CubeToolStripMenuItem_Click);
             // 
             // паралелепипедToolStripMenuItem
             // 
             this.паралелепипедToolStripMenuItem.Name = "паралелепипедToolStripMenuItem";
-            this.паралелепипедToolStripMenuItem.Size = new System.Drawing.Size(211, 26);
+            this.паралелепипедToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.паралелепипедToolStripMenuItem.Text = "Параллелепипед";
             this.паралелепипедToolStripMenuItem.Click += new System.EventHandler(this.ParallelepipedToolStripMenuItem_Click);
             // 
             // пирамидаToolStripMenuItem
             // 
             this.пирамидаToolStripMenuItem.Name = "пирамидаToolStripMenuItem";
-            this.пирамидаToolStripMenuItem.Size = new System.Drawing.Size(211, 26);
+            this.пирамидаToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.пирамидаToolStripMenuItem.Text = "Пирамида";
             this.пирамидаToolStripMenuItem.Click += new System.EventHandler(this.PyramidToolStripMenuItem_Click);
             // 
             // цилиндрToolStripMenuItem
             // 
             this.цилиндрToolStripMenuItem.Name = "цилиндрToolStripMenuItem";
-            this.цилиндрToolStripMenuItem.Size = new System.Drawing.Size(211, 26);
+            this.цилиндрToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.цилиндрToolStripMenuItem.Text = "Цилиндр";
             this.цилиндрToolStripMenuItem.Click += new System.EventHandler(this.CylinderToolStripMenuItem_Click);
             // 
             // конусToolStripMenuItem
             // 
             this.конусToolStripMenuItem.Name = "конусToolStripMenuItem";
-            this.конусToolStripMenuItem.Size = new System.Drawing.Size(211, 26);
+            this.конусToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.конусToolStripMenuItem.Text = "Конус";
             this.конусToolStripMenuItem.Click += new System.EventHandler(this.ConeToolStripMenuItem_Click);
             // 
             // сфераToolStripMenuItem
             // 
             this.сфераToolStripMenuItem.Name = "сфераToolStripMenuItem";
-            this.сфераToolStripMenuItem.Size = new System.Drawing.Size(211, 26);
+            this.сфераToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.сфераToolStripMenuItem.Text = "Сфера";
             this.сфераToolStripMenuItem.Click += new System.EventHandler(this.SphereToolStripMenuItem_Click);
             // 
@@ -366,7 +366,7 @@ namespace MineCad
             this.Параллелипипед.Name = "Параллелипипед";
             this.Параллелипипед.Size = new System.Drawing.Size(135, 30);
             this.Параллелипипед.TabIndex = 11;
-            this.Параллелипипед.Text = "Параллелипипед";
+            this.Параллелипипед.Text = "Параллелепипед";
             this.Параллелипипед.UseVisualStyleBackColor = true;
             this.Параллелипипед.Click += new System.EventHandler(this.Parallelipiped_Click);
             // 
@@ -444,6 +444,17 @@ namespace MineCad
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Альфа-билд";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(438, 8);
+            this.button3.Margin = new System.Windows.Forms.Padding(4);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(100, 30);
+            this.button3.TabIndex = 10;
+            this.button3.Text = "Танки";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.TanksVisibilityButton_Click);
             // 
             // Line
             // 
@@ -584,17 +595,6 @@ namespace MineCad
             this.label1.Size = new System.Drawing.Size(198, 17);
             this.label1.TabIndex = 18;
             this.label1.Text = "Масштаб для модели из STL";
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(438, 8);
-            this.button3.Margin = new System.Windows.Forms.Padding(4);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(100, 30);
-            this.button3.TabIndex = 10;
-            this.button3.Text = "Танки";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.TanksVisibilityButton_Click);
             // 
             // MainForm
             // 
