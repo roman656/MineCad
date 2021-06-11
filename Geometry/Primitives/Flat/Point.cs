@@ -1,28 +1,27 @@
 ﻿using SharpGL;
 using System;
 using System.Drawing;
+using System.Numerics;
 
 namespace MineCad.Geometry.Primitives.Flat
 {
-    public class Point : IFlat
+    public class Point : FlatShape
     {
-        private float x = 0.0f;
-        private float y = 0.0f;
-        private float z = 0.0f;
+        private Vector3 coordinates;
 
-        public Point() {}
+        public Point() 
+        {
+            this.coordinates = new Vector3(0.0f);
+        }
 
         public Point(float x, float y)
         {
-            this.x = x;
-            this.y = y;
+            this.coordinates = new Vector3(x, y, 0.0f);
         }
 
         public Point(float x, float y, float z)
         {
-            this.x = x;
-            this.y = y;
-            this.z = z;
+            this.coordinates = new Vector3(x, y, z);
         }
 
         /* 
@@ -45,21 +44,22 @@ namespace MineCad.Geometry.Primitives.Flat
             phi = Utility.Math.ConvertDegreesToRadians(phi);
 
             /* Переход к декартовым координатам. */
-            this.x = (float)(radius * Math.Sin(theta) * Math.Cos(phi));
-            this.y = (float)(radius * Math.Cos(theta));
-            this.z = (float)(radius * Math.Sin(theta) * Math.Sin(phi));
+            this.coordinates = new Vector3(
+                    (float)(radius * Math.Sin(theta) * Math.Cos(phi)),
+                    (float)(radius * Math.Cos(theta)),
+                    (float)(radius * Math.Sin(theta) * Math.Sin(phi)));
         }
 
         public float X
         {
             get
             {
-                return this.x;
+                return this.coordinates.X;
             }
 
             set
             {
-                this.x = value;
+                this.coordinates.X = value;
             }
         }
 
@@ -67,12 +67,12 @@ namespace MineCad.Geometry.Primitives.Flat
         {
             get
             {
-                return this.y;
+                return this.coordinates.Y;
             }
 
             set
             {
-                this.y = value;
+                this.coordinates.Y = value;
             }
         }
 
@@ -80,20 +80,20 @@ namespace MineCad.Geometry.Primitives.Flat
         {
             get
             {
-                return this.z;
+                return this.coordinates.Z;
             }
 
             set
             {
-                this.z = value;
+                this.coordinates.Z = value;
             }
         }
 
-        public double Abs
+        public float Abs
         {
             get
             {
-                return Math.Sqrt(this.x * this.x + this.y * this.y + this.z * this.z);
+                return Vector3.Distance(new Vector3(0.0f), this.coordinates);
             }
         }
 
@@ -177,6 +177,31 @@ namespace MineCad.Geometry.Primitives.Flat
         public object Clone()
         {
             return new Point(this.x, this.y, this.z);
+        }
+
+        public void Draw(OpenGL gl)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DrawArea(OpenGL gl)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override object Clone()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Draw(OpenGL gl)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void DrawArea(OpenGL gl)
+        {
+            throw new NotImplementedException();
         }
     }
 }

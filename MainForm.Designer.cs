@@ -95,7 +95,7 @@ namespace MineCad
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.openGLControl.DrawFPS = false;
-            this.openGLControl.FrameRate = 60;
+            this.openGLControl.FrameRate = 120;
             this.openGLControl.Location = new System.Drawing.Point(14, 117);
             this.openGLControl.Margin = new System.Windows.Forms.Padding(5);
             this.openGLControl.Name = "openGLControl";
@@ -252,55 +252,55 @@ namespace MineCad
             this.конусToolStripMenuItem,
             this.сфераToolStripMenuItem});
             this.примитивыToolStripMenuItem.Name = "примитивыToolStripMenuItem";
-            this.примитивыToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.примитивыToolStripMenuItem.Size = new System.Drawing.Size(175, 26);
             this.примитивыToolStripMenuItem.Text = "Примитивы";
             // 
             // плоскостьToolStripMenuItem
             // 
             this.плоскостьToolStripMenuItem.Name = "плоскостьToolStripMenuItem";
-            this.плоскостьToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.плоскостьToolStripMenuItem.Size = new System.Drawing.Size(211, 26);
             this.плоскостьToolStripMenuItem.Text = "Плоскость";
             this.плоскостьToolStripMenuItem.Click += new System.EventHandler(this.PlaneToolStripMenuItem_Click);
             // 
             // кубToolStripMenuItem
             // 
             this.кубToolStripMenuItem.Name = "кубToolStripMenuItem";
-            this.кубToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.кубToolStripMenuItem.Size = new System.Drawing.Size(211, 26);
             this.кубToolStripMenuItem.Text = "Куб";
             this.кубToolStripMenuItem.Click += new System.EventHandler(this.CubeToolStripMenuItem_Click);
             // 
             // паралелепипедToolStripMenuItem
             // 
             this.паралелепипедToolStripMenuItem.Name = "паралелепипедToolStripMenuItem";
-            this.паралелепипедToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.паралелепипедToolStripMenuItem.Size = new System.Drawing.Size(211, 26);
             this.паралелепипедToolStripMenuItem.Text = "Параллелепипед";
             this.паралелепипедToolStripMenuItem.Click += new System.EventHandler(this.ParallelepipedToolStripMenuItem_Click);
             // 
             // пирамидаToolStripMenuItem
             // 
             this.пирамидаToolStripMenuItem.Name = "пирамидаToolStripMenuItem";
-            this.пирамидаToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.пирамидаToolStripMenuItem.Size = new System.Drawing.Size(211, 26);
             this.пирамидаToolStripMenuItem.Text = "Пирамида";
             this.пирамидаToolStripMenuItem.Click += new System.EventHandler(this.PyramidToolStripMenuItem_Click);
             // 
             // цилиндрToolStripMenuItem
             // 
             this.цилиндрToolStripMenuItem.Name = "цилиндрToolStripMenuItem";
-            this.цилиндрToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.цилиндрToolStripMenuItem.Size = new System.Drawing.Size(211, 26);
             this.цилиндрToolStripMenuItem.Text = "Цилиндр";
             this.цилиндрToolStripMenuItem.Click += new System.EventHandler(this.CylinderToolStripMenuItem_Click);
             // 
             // конусToolStripMenuItem
             // 
             this.конусToolStripMenuItem.Name = "конусToolStripMenuItem";
-            this.конусToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.конусToolStripMenuItem.Size = new System.Drawing.Size(211, 26);
             this.конусToolStripMenuItem.Text = "Конус";
             this.конусToolStripMenuItem.Click += new System.EventHandler(this.ConeToolStripMenuItem_Click);
             // 
             // сфераToolStripMenuItem
             // 
             this.сфераToolStripMenuItem.Name = "сфераToolStripMenuItem";
-            this.сфераToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.сфераToolStripMenuItem.Size = new System.Drawing.Size(211, 26);
             this.сфераToolStripMenuItem.Text = "Сфера";
             this.сфераToolStripMenuItem.Click += new System.EventHandler(this.SphereToolStripMenuItem_Click);
             // 

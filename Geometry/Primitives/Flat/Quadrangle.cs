@@ -4,7 +4,7 @@ using System.Drawing;
 
 namespace MineCad.Geometry.Primitives.Flat
 {
-    public class Quadrangle : IFlat
+    public class Quadrangle : IFlatShape
     {
         private Point center = new Point();
         private Point[] points = { new Point(-1.0f, 0.0f, -1.0f),

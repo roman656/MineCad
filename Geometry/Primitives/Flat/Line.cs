@@ -3,7 +3,7 @@ using System.Drawing;
 
 namespace MineCad.Geometry.Primitives.Flat
 {
-    public class Line : IFlat
+    public class Line : IFlatShape
     {
         private Point begin;
         private Point end;
